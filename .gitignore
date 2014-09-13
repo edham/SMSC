@@ -24,3 +24,7 @@ proguard/
 
 # Log Files
 *.log
+/SMSCSeguridad/libs/google-play-services_lib/nbandroid/
+/SMSCUsuario/libs/google-play-services_lib/nbandroid/
+/SMSCUsuario/nbandroid/
+/SMSCSeguridad/nbandroid/
