@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package entidades;
+package com.smsc.usuario.entidades;
 
 import java.util.Date;
 
