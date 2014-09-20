@@ -281,7 +281,7 @@ public void addMaker()
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
-        dialog.setContentView(R.layout.realizar_pregunta);
+        dialog.setContentView(R.layout.dialog_incidente);
         
         TextView lblAsunto = (TextView)dialog.findViewById(R.id.lblAsunto);
         lblAsunto.setText(lista.get(posicion).getStr_detalle());
