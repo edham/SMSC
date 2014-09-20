@@ -12,4 +12,5 @@ package entidades;
  */
 public class clsPersonal {
     
+    
 }

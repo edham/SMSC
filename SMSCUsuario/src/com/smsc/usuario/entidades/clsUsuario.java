@@ -21,10 +21,20 @@ public class clsUsuario {
     private String str_dni;
     private boolean bool_sexo;
     private Date dat_fecha_nacimiento;
-    private int int_cantidad_falso;
-    private int int_estado;
 
     public clsUsuario() {
+    }
+
+    public clsUsuario(String entidad) {
+        String [] parametro = entidad.split("\\<+parametro+>");   
+        this.int_id_usuario = Integer.parseInt(parametro[0].trim());
+        this.str_nombre = parametro[1].trim();
+        this.str_apellido = parametro[2].trim();
+        this.str_email = parametro[3].trim();
+        this.str_celular = parametro[4].trim();
+        this.str_dni = parametro[5].trim();
+        this.dat_fecha_nacimiento = new Date(Long.parseLong(parametro[6].trim()));
+        this.bool_sexo = Boolean.parseBoolean(parametro[7].trim());
     }
 
     public int getInt_id_usuario() {
@@ -90,21 +100,4 @@ public class clsUsuario {
     public void setDat_fecha_nacimiento(Date dat_fecha_nacimiento) {
         this.dat_fecha_nacimiento = dat_fecha_nacimiento;
     }
-
-    public int getInt_cantidad_falso() {
-        return int_cantidad_falso;
-    }
-
-    public void setInt_cantidad_falso(int int_cantidad_falso) {
-        this.int_cantidad_falso = int_cantidad_falso;
-    }
-
-    public int getInt_estado() {
-        return int_estado;
-    }
-
-    public void setInt_estado(int int_estado) {
-        this.int_estado = int_estado;
-    }
-    
 }

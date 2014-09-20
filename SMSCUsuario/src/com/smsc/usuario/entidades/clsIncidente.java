@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package entidades;
+package com.smsc.usuario.entidades;
 
+import android.util.Base64;
 import java.util.Date;
 
 /**
@@ -14,16 +15,34 @@ import java.util.Date;
  */
 public class clsIncidente {
     private int int_id_incidente;
-    private clsTipoIncidente objTipoIncidente;
-    private clsUsuario objUsuario;
     private double dou_latitud;
     private double dou_longitud;
     private String str_detalle;
     private byte[] byte_foto;
     private Date dat_fecha_registro;
     private int int_estado;
+    private int int_id_tipo_incidente;
+    private String str_tipo_incidente_nombre;
+    private int int_id_usuario;
 
     public clsIncidente() {
+    }
+
+    public clsIncidente(String entidad,int idUsuario) {
+        String [] parametro = entidad.split("\\<+parametro+>");   
+        this.int_id_incidente = Integer.parseInt(parametro[0].trim());
+        this.dou_latitud = Double.parseDouble(parametro[1].trim());
+        this.dou_longitud = Double.parseDouble(parametro[2].trim());
+        this.str_detalle = parametro[3].trim();
+        this.dat_fecha_registro = new Date(Long.parseLong(parametro[4].trim()));
+        this.int_estado = Integer.parseInt(parametro[5].trim());
+        if(parametro[6].trim().equals("0"))
+            this.byte_foto = null;
+        else
+            this.byte_foto = Base64.decode(parametro[6].trim(),Base64.NO_WRAP|Base64.URL_SAFE);     
+         this.int_id_tipo_incidente = Integer.parseInt(parametro[7].trim());
+         this.str_tipo_incidente_nombre = parametro[8].trim();
+         this.int_id_usuario=idUsuario;
     }
 
     public int getInt_id_incidente() {
@@ -32,22 +51,6 @@ public class clsIncidente {
 
     public void setInt_id_incidente(int int_id_incidente) {
         this.int_id_incidente = int_id_incidente;
-    }
-
-    public clsTipoIncidente getObjTipoIncidente() {
-        return objTipoIncidente;
-    }
-
-    public void setObjTipoIncidente(clsTipoIncidente objTipoIncidente) {
-        this.objTipoIncidente = objTipoIncidente;
-    }
-
-    public clsUsuario getObjUsuario() {
-        return objUsuario;
-    }
-
-    public void setObjUsuario(clsUsuario objUsuario) {
-        this.objUsuario = objUsuario;
     }
 
     public double getDou_latitud() {
@@ -96,6 +99,30 @@ public class clsIncidente {
 
     public void setInt_estado(int int_estado) {
         this.int_estado = int_estado;
+    }
+
+    public int getInt_id_tipo_incidente() {
+        return int_id_tipo_incidente;
+    }
+
+    public void setInt_id_tipo_incidente(int int_id_tipo_incidente) {
+        this.int_id_tipo_incidente = int_id_tipo_incidente;
+    }
+
+    public String getStr_tipo_incidente_nombre() {
+        return str_tipo_incidente_nombre;
+    }
+
+    public void setStr_tipo_incidente_nombre(String str_tipo_incidente_nombre) {
+        this.str_tipo_incidente_nombre = str_tipo_incidente_nombre;
+    }
+
+    public int getInt_id_usuario() {
+        return int_id_usuario;
+    }
+
+    public void setInt_id_usuario(int int_id_usuario) {
+        this.int_id_usuario = int_id_usuario;
     }
     
 }

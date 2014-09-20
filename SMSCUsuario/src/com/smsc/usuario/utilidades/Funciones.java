@@ -6,6 +6,9 @@
 
 package com.smsc.usuario.utilidades;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -126,6 +129,21 @@ public static int getEdad(Date pNacio){
 	else
 		return false;
     }
+public static boolean verificaConexion(Context context) {
+    boolean bConectado = false;
+    ConnectivityManager connec = (ConnectivityManager) context
+            .getSystemService(Context.CONNECTIVITY_SERVICE);
+    // No sólo wifi, también GPRS
+    NetworkInfo[] redes = connec.getAllNetworkInfo();
+    // este bucle debería no ser tan ñapa
+   for (int i = 0; i < redes.length; i++) {
+        // ¿Tenemos conexión? ponemos a true
+        if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+            bConectado = true;
+        }
+    }
+    return bConectado;
+}
 
 
 }
