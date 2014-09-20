@@ -1,26 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:layout_marginTop="5dp"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="200dp"
+    android:layout_height="fill_parent"
     android:background="@color/fondo"
-    android:orientation="vertical" >
+    android:gravity="center_vertical|center_horizontal"
+    >
 
-
-     <TextView
+<LinearLayout 
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:gravity="center_vertical" 
+android:layout_marginLeft="1dp"
+android:layout_marginRight="1dp"
+android:layout_marginTop="1dp"
+android:orientation="horizontal">
+  <TextView
+        android:layout_width="fill_parent"
         android:id="@+id/lblNombreInciente"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Origen"
-        android:textColor="@color/boton_texto"
+        android:text="Precio"
         android:textStyle="bold"
         android:gravity="center"
-        android:textSize="20dp"/>
-
-   
+        android:textSize="14dp"
+        android:textColor="@color/boton_texto" />
+    
+</LinearLayout>
+  
+    
+    
 <LinearLayout 
 android:layout_width="fill_parent"
 android:layout_height="wrap_content"
@@ -221,44 +230,27 @@ android:orientation="horizontal">
     
 </LinearLayout>
 
-<LinearLayout 
-android:layout_width="fill_parent"
-android:layout_height="wrap_content"
-android:gravity="center_vertical" 
-android:layout_marginLeft="5dp"
-android:layout_marginRight="5dp"
-android:layout_marginTop="2dp"
-android:orientation="horizontal">
-
-    <LinearLayout 
+     
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" 
-    android:gravity="center"
-    android:layout_marginRight="2dp" 
-    android:layout_weight="1"
-    android:orientation="vertical">
-       
-
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="60dp" 
+    android:layout_marginRight="20dp" 
+     android:gravity="center"
+    >
+    
+         <Button
+            android:id="@+id/btnAceptar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"                                         
+            android:text="Cerrar"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:background="@drawable/boton1"
+            android:textColor="@color/boton_texto"/>	
+   
     </LinearLayout>
-
-    <LinearLayout 
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content" 
-    android:gravity="center"
-    android:layout_marginLeft="2dp" 
-    android:layout_weight="1"
-    android:orientation="vertical">
-        <Button
-        android:id="@+id/btnDetalle"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"                                         
-        android:text="Detalle"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        android:background="@drawable/boton2"
-        android:textColor="@color/boton_texto"/>	
-
-    </LinearLayout>
+    
 </LinearLayout>
- 
- </LinearLayout>

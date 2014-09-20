@@ -23,7 +23,10 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -38,6 +41,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.smsc.usuario.dao.clsIncidentesDAO;
 import com.smsc.usuario.dao.clsUsuarioDAO;
 import com.smsc.usuario.entidades.clsIncidente;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -61,6 +65,7 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
                 if (event.getAction() == MotionEvent.ACTION_UP && event.getEventTime() - event.getDownTime() >= 1000){
                     Toast.makeText(MapaActivity.this,"Incendio", Toast.LENGTH_SHORT).show(); 
                     Intent i=new Intent(MapaActivity.this,RegistrarIncidenteActivity.class);
+                    i.putExtra("ID",""+2);
                     startActivity(i);
                 }
                 return false;
@@ -74,6 +79,7 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
                 if (event.getAction() == MotionEvent.ACTION_UP && event.getEventTime() - event.getDownTime() >= 1000){
                     Toast.makeText(MapaActivity.this,"Secuestro", Toast.LENGTH_SHORT).show(); 
                     Intent i=new Intent(MapaActivity.this,RegistrarIncidenteActivity.class);
+                    i.putExtra("ID",""+3);
                     startActivity(i);
                 }
                 return false;
@@ -87,6 +93,7 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
                 if (event.getAction() == MotionEvent.ACTION_UP && event.getEventTime() - event.getDownTime() >= 1000){
                     Toast.makeText(MapaActivity.this,"Homicidio", Toast.LENGTH_SHORT).show(); 
                     Intent i=new Intent(MapaActivity.this,RegistrarIncidenteActivity.class);
+                    i.putExtra("ID",""+4);
                     startActivity(i);
                 }
                 return false;
@@ -100,6 +107,7 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
                 if (event.getAction() == MotionEvent.ACTION_UP && event.getEventTime() - event.getDownTime() >= 1000){
                     Toast.makeText(MapaActivity.this,"Accidente", Toast.LENGTH_SHORT).show(); 
                     Intent i=new Intent(MapaActivity.this,RegistrarIncidenteActivity.class);
+                    i.putExtra("ID",""+5);
                     startActivity(i);
                 }
                 return false;
@@ -113,6 +121,7 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
                 if (event.getAction() == MotionEvent.ACTION_UP && event.getEventTime() - event.getDownTime() >= 1000){
                     Toast.makeText(MapaActivity.this,"Violacion", Toast.LENGTH_SHORT).show(); 
                     Intent i=new Intent(MapaActivity.this,RegistrarIncidenteActivity.class);
+                    i.putExtra("ID",""+6);
                     startActivity(i);
                 }
                 return false;
@@ -126,6 +135,7 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
                 if (event.getAction() == MotionEvent.ACTION_UP && event.getEventTime() - event.getDownTime() >= 1000){
                     Toast.makeText(MapaActivity.this,"Otros", Toast.LENGTH_SHORT).show(); 
                     Intent i=new Intent(MapaActivity.this,RegistrarIncidenteActivity.class);
+                    i.putExtra("ID",""+7);
                     startActivity(i);
                 }
                 return false;
@@ -139,6 +149,7 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
                 if (event.getAction() == MotionEvent.ACTION_UP && event.getEventTime() - event.getDownTime() >= 1000){
                     Toast.makeText(MapaActivity.this,"Robo", Toast.LENGTH_SHORT).show(); 
                     Intent i=new Intent(MapaActivity.this,RegistrarIncidenteActivity.class);
+                    i.putExtra("ID",""+1);
                     startActivity(i);
                 }
                 return false;
@@ -235,23 +246,23 @@ public void addMaker()
     googleMap.clear();
     lista=clsIncidentesDAO.Listar(this,false);
     if(lista!=null)
-    for(clsIncidente entidad : lista)
+    for(int i=0; i<lista.size();i++)
     {
         BitmapDescriptor bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_robo);
-        if(entidad.getInt_id_tipo_incidente()==2)
+        if(lista.get(i).getInt_id_tipo_incidente()==2)
             bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_incendio);
-        else if(entidad.getInt_id_tipo_incidente()==3)
+        else if(lista.get(i).getInt_id_tipo_incidente()==3)
             bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_secuestro);
-        else if(entidad.getInt_id_tipo_incidente()==4)
+        else if(lista.get(i).getInt_id_tipo_incidente()==4)
             bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_homicidio);
-        else if(entidad.getInt_id_tipo_incidente()==5)
+        else if(lista.get(i).getInt_id_tipo_incidente()==5)
             bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_accidente);
-        else if(entidad.getInt_id_tipo_incidente()==6)
+        else if(lista.get(i).getInt_id_tipo_incidente()==6)
             bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_violacion);
-        else if(entidad.getInt_id_tipo_incidente()==7)
+        else if(lista.get(i).getInt_id_tipo_incidente()==7)
             bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_otros);
         
-        googleMap.addMarker(new MarkerOptions().icon(bimap).title(entidad.getStr_tipo_incidente_nombre()).snippet(""+entidad.getInt_id_incidente()).position(new LatLng(entidad.getDou_latitud(),entidad.getDou_longitud())));
+        googleMap.addMarker(new MarkerOptions().icon(bimap).title(lista.get(i).getStr_tipo_incidente_nombre()).snippet(""+i).position(new LatLng(lista.get(i).getDou_latitud(),lista.get(i).getDou_longitud())));
     }
      
 
@@ -260,13 +271,50 @@ public void addMaker()
                 @Override
                 public void onInfoWindowClick(Marker marker) {
 
-//                   Intent i=new Intent(MapaActivity.this,EmpresaDetalleActivity.class);
-//                   i.putExtra("idEmpresa",""+marker.getSnippet());
-//                   startActivity(i); 
+                  
+                    getDetalle(Integer.parseInt(marker.getSnippet()));
                 }
             });
         }
-   
+   public void getDetalle(int posicion)
+   {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.realizar_pregunta);
+        
+        TextView lblAsunto = (TextView)dialog.findViewById(R.id.lblAsunto);
+        lblAsunto.setText(lista.get(posicion).getStr_detalle());
+
+        TextView lblNombreInciente = (TextView)dialog.findViewById(R.id.lblNombreInciente);
+        lblNombreInciente.setText(lista.get(posicion).getStr_tipo_incidente_nombre());
+
+        TextView lblEstado = (TextView)dialog.findViewById(R.id.lblEstado);
+        lblEstado.setText("En Progreso");
+        if(lista.get(posicion).getInt_estado()==1)
+            lblEstado.setText("Verificado");
+        else if(lista.get(posicion).getInt_estado()==2)
+            lblEstado.setText("Anulado");
+        SimpleDateFormat  fecha=new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat hora=new SimpleDateFormat("h:mm a");
+
+        TextView lblFecha = (TextView)dialog.findViewById(R.id.lblFecha);
+        lblFecha.setText(fecha.format(lista.get(posicion).getDat_fecha_registro()));
+
+        TextView lblHora = (TextView)dialog.findViewById(R.id.lblHora);
+        lblHora.setText(hora.format(lista.get(posicion).getDat_fecha_registro()));
+
+
+        Button btnAceptar = (Button) dialog.findViewById(R.id.btnAceptar);
+        btnAceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+         
+   }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)

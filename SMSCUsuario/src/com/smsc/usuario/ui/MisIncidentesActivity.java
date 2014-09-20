@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.smsc.usuario.dao.clsIncidentesDAO;
 import com.smsc.usuario.entidades.clsIncidente;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,7 +35,6 @@ public class MisIncidentesActivity extends Activity {
      */
     
      private  List<clsIncidente> itens=null;
-      private EditText txtFiltroHistorial;
      private ListView listItinerarioEmpresas;
      private AdaptadorTitulares adaptador;
      
@@ -47,32 +47,12 @@ public class MisIncidentesActivity extends Activity {
         
       
        
-       itens= new ArrayList<clsIncidente>();
-       itens.add(new clsIncidente() );
-       itens.add(new clsIncidente() );
-       itens.add(new clsIncidente() );
+       itens=clsIncidentesDAO.Listar(this,true);
         
-          listItinerarioEmpresas = (ListView)findViewById(R.id.list);  
-         txtFiltroHistorial = (EditText) findViewById(R.id.txtFiltroHistorial);
-		txtFiltroHistorial.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before,int count) {                                
-                            Buscar(s.toString().trim()); 
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,int after) {
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-			}
-		});
-                
-                Buscar("");    
+          listItinerarioEmpresas = (ListView)findViewById(R.id.list); 
+          Buscar();    
     }
-         public void Buscar(String filtro)
+    public void Buscar()
   {    
       
       if(itens!=null && itens.size()!=0)
@@ -101,44 +81,40 @@ public class MisIncidentesActivity extends Activity {
             LayoutInflater inflater = context.getLayoutInflater();
             View item = inflater.inflate(R.layout.mis_incidentes_lista, null);
 
-//            TextView lblNombreEmpresa = (TextView)item.findViewById(R.id.lblNombreEmpresa);
-//            lblNombreEmpresa.setText("Empresa "+itens.get(position).getNombreEmpresa());
+            TextView lblAsunto = (TextView)item.findViewById(R.id.lblAsunto);
+            lblAsunto.setText(itens.get(position).getStr_detalle());
 
-//            TextView lblPrecio = (TextView)item.findViewById(R.id.lblPrecio);
-//            lblPrecio.setText("S/."+itens.get(position).getDou_precio());
-//            TextView lblDisponibilidad = (TextView)item.findViewById(R.id.lblDisponibilidad);
-//            lblDisponibilidad.setText(""+itens.get(position).getInt_asientos_disponibles());
-//
-//            SimpleDateFormat  fecha=new SimpleDateFormat("dd/MM/yyyy");
-//            SimpleDateFormat hora=new SimpleDateFormat("h:mm a");
-//
-//            TextView lblFecha = (TextView)item.findViewById(R.id.lblFecha);
-//            lblFecha.setText(fecha.format(itens.get(position).getFecha()));
-//
-//            TextView lblHora = (TextView)item.findViewById(R.id.lblHora);
-//            lblHora.setText(hora.format(itens.get(position).getFecha()));
+            TextView lblNombreInciente = (TextView)item.findViewById(R.id.lblNombreInciente);
+            lblNombreInciente.setText(itens.get(position).getStr_tipo_incidente_nombre());
+            
+            TextView lblEstado = (TextView)item.findViewById(R.id.lblEstado);
+            lblEstado.setText("En Progreso");
+            if(itens.get(position).getInt_estado()==1)
+                lblEstado.setText("Verificado");
+            else if(itens.get(position).getInt_estado()==2)
+                lblEstado.setText("Anulado");
+            SimpleDateFormat  fecha=new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat hora=new SimpleDateFormat("h:mm a");
 
-//            Button btnInformacion = (Button)item.findViewById(R.id.btnInformacion);
-//
-//            btnInformacion.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-////               Intent i=new Intent(ItinerarioEmpresasActivity.this,EmpresaDetalleActivity.class);
-////                i.putExtra("idEmpresa",""+itens.get(posicion).getInt_id_empresa());
-////                startActivity(i); 
-//            }
-//            });
+            TextView lblFecha = (TextView)item.findViewById(R.id.lblFecha);
+            lblFecha.setText(fecha.format(itens.get(position).getDat_fecha_registro()));
 
-//            Button btnSiguiente = (Button)item.findViewById(R.id.btnSiguiente);
-//            final int pos=position;
-//            btnSiguiente.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-////              getBtnSiguiente(itens.get(pos));
-//            }
-//            });
+            TextView lblHora = (TextView)item.findViewById(R.id.lblHora);
+            lblHora.setText(hora.format(itens.get(position).getDat_fecha_registro()));
+
+            Button btnDetalle = (Button)item.findViewById(R.id.btnDetalle);
+
+            btnDetalle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+    //               Intent i=new Intent(ItinerarioEmpresasActivity.this,EmpresaDetalleActivity.class);
+    //                i.putExtra("idEmpresa",""+itens.get(posicion).getInt_id_empresa());
+    //                startActivity(i); 
+                }
+            });
+
+//          
 
             return(item);
 		}

@@ -17,7 +17,9 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+import com.smsc.usuario.utilidades.Funciones;
 
 import java.util.List;
 
@@ -33,13 +35,19 @@ public class RegistrarIncidenteActivity extends Activity {
      private EditText txtAsunto;
      private  ImageView image;
      private Bitmap bp;
+     private int idTipoIncidente;
+     
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         // ToDo add your GUI initialization code here       
          setContentView(R.layout.registrar_incidente);
+          Bundle bundle=getIntent().getExtras();
+          int idTipoIncidente=Integer.valueOf(bundle.getString("ID"));
+         TextView lblTitulo = (TextView)findViewById(R.id.lblTitulo);
          txtAsunto = (EditText)findViewById(R.id.txtAsunto);
          image = (ImageView)findViewById(R.id.image);
+         lblTitulo.setText(Funciones.getNombreIncidente(idTipoIncidente));
 
     }
     

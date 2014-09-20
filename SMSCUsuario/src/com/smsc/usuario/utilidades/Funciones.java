@@ -144,6 +144,23 @@ public static boolean verificaConexion(Context context) {
     }
     return bConectado;
 }
+    public static String getNombreIncidente(int id)
+    {
+        String incidente="Robo";
+        if(id==2)
+            incidente="Incendío";
+        else if(id==3)
+            incidente="Secuestro";
+        else if(id==4)
+            incidente="Homicidio";
+        else if(id==5)
+            incidente="Accidente";
+        else if(id==6)
+            incidente="Violación";
+        else if(id==7)
+            incidente="Otros";
 
+        return incidente;
+    }
 
 }
