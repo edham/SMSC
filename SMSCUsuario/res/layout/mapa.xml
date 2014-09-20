@@ -1,14 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="center"
- >
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-  	android:id="@+id/map"
-  	android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-  	class="com.google.android.gms.maps.SupportMapFragment"/>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical" >
 
-</LinearLayout>
+      
+ <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:id="@+id/map"
+  	 android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+  	class="com.google.android.gms.maps.SupportMapFragment"/>
+ 
+    <Button
+    android:id="@+id/btnIncendio"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:adjustViewBounds="true"  
+    android:scaleType="centerCrop"    
+    android:background="@drawable/btn_incendio"/>	
+ 
+    <Button
+    android:id="@+id/btnSecuestro"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_marginTop="100dp"
+    android:layout_marginLeft="10dp"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:adjustViewBounds="true"  
+    android:scaleType="centerCrop"    
+    android:background="@drawable/btn_secuestro"/>	
+    
+    <Button
+    android:id="@+id/btnHomicidio"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_marginLeft="10dp"
+    android:layout_alignParentLeft="true"
+    android:layout_centerInParent="true"
+    android:adjustViewBounds="true"  
+    android:scaleType="centerCrop"    
+    android:background="@drawable/btn_homicidio"/>	
+    
+     <Button
+    android:id="@+id/btnAccidente"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_marginBottom="100dp"
+    android:layout_marginLeft="10dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:adjustViewBounds="true"  
+    android:scaleType="centerCrop"    
+    android:background="@drawable/btn_accidente"/>	
+    
+    <Button
+    android:id="@+id/btnViolacion"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:adjustViewBounds="true"  
+    android:scaleType="centerCrop"    
+    android:background="@drawable/btn_violacion"/>	
+    
+    <Button
+    android:id="@+id/btnOtros"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_marginBottom="10dp"
+    android:layout_alignParentBottom="true"
+    android:layout_centerInParent="true"
+    android:adjustViewBounds="true"  
+    android:scaleType="centerCrop"    
+    android:background="@drawable/btn_otros"/>	
+
+    
+    <Button
+    android:id="@+id/btnRobo"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_marginTop="10dp"
+    android:layout_alignParentTop="true"
+    android:layout_centerInParent="true"
+    android:adjustViewBounds="true"  
+    android:scaleType="centerCrop"    
+    android:background="@drawable/btn_robo"/>	
+</RelativeLayout>
