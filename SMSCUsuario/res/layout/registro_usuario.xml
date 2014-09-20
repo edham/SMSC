@@ -10,7 +10,7 @@ android:layout_width="fill_parent"
     android:orientation="vertical"
     android:gravity="center"
     android:descendantFocusability="beforeDescendants"
-    android:background="@color/col2"
+    android:background="@color/fondo"
     android:focusableInTouchMode="true" >
 <LinearLayout
     android:layout_width="fill_parent"
@@ -18,7 +18,7 @@ android:layout_width="fill_parent"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:layout_marginTop="5dp"
-    android:background="@drawable/titulo"
+    android:background="@drawable/col2"
      android:gravity="center"
     android:orientation="vertical" >
 
@@ -29,7 +29,7 @@ android:layout_width="fill_parent"
         android:textStyle="bold"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/cabecera_titulo" />
+        android:textColor="@color/col2_texto" />
 
 
 </LinearLayout>
@@ -45,7 +45,6 @@ android:layout_width="fill_parent"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:layout_marginTop="10dp"
-    android:background="@drawable/contenido"
     android:orientation="vertical" >
 
 <LinearLayout 
@@ -401,84 +400,6 @@ android:orientation="horizontal">
 </LinearLayout>
 
 
-<LinearLayout 
-android:layout_width="fill_parent"
-android:layout_height="wrap_content"
-android:gravity="center_vertical" 
-android:layout_marginLeft="1dp"
-android:layout_marginRight="1dp"
-android:layout_marginTop="5dp"
-android:orientation="horizontal">
-
-    <LinearLayout 
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
-    android:gravity="center"
-    android:layout_marginRight="2dp" 
-    android:layout_weight="2"
-    android:background="@drawable/col1"
-    android:orientation="vertical">
-       <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Dirección:"
-        android:textStyle="bold"
-        android:gravity="right"
-        android:textSize="18dp"
-        android:textColor="@color/col1_texto" />
-
-    </LinearLayout>
-
-    <LinearLayout 
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content" 
-    android:gravity="center"
-    android:layout_marginLeft="2dp" 
-    android:layout_weight="1"
-    android:background="@drawable/col2"
-    android:orientation="vertical">
-      
-  <EditText
-        android:id="@+id/txtDireccion"
-        android:layout_width="fill_parent"
-        android:layout_height="92dp"
-        android:layout_centerInParent="true"
-        android:gravity="top|left"
-        android:hint="dirección"
-        android:inputType="textMultiLine"
-        android:lines="3"
-        android:maxWidth="300sp"
-        android:minWidth="10.0dip"
-        android:scrollHorizontally="false" />
-    </LinearLayout>
-    
-</LinearLayout>
-
-
-
-<LinearLayout 
-android:layout_width="fill_parent"
-android:layout_height="wrap_content"
-android:gravity="center_vertical" 
-android:layout_marginLeft="1dp"
-android:layout_marginRight="1dp"
-android:layout_marginTop="5dp"
-android:background="@drawable/col2"
-android:orientation="horizontal">
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Antecedentes Medicos"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textSize="22dp"
-        android:textColor="@color/col1_texto" />
-    
-</LinearLayout>
-
-
-
 
 <LinearLayout 
 android:layout_width="fill_parent"
@@ -497,7 +418,7 @@ android:orientation="horizontal">
         android:textStyle="bold"
         android:gravity="center"
         android:textSize="22dp"
-        android:textColor="@color/col1_texto" />
+        android:textColor="@color/col2_texto" />
     
 </LinearLayout>
 
@@ -622,7 +543,7 @@ android:orientation="horizontal">
             android:textStyle="bold"
             android:gravity="center"
             android:textSize="18dp"
-            android:textColor="@color/col1_texto"
+            android:textColor="@color/col2_texto"
             android:text="Acepto las Condicones y Terminos de uso"/>  
     
 </LinearLayout>
@@ -648,6 +569,7 @@ android:gravity="center"
 android:layout_marginLeft="5dp"
 android:layout_marginRight="5dp"
 android:layout_marginTop="10dp"
+android:layout_marginBottom="10dp"
 android:orientation="horizontal">
 
     <LinearLayout 

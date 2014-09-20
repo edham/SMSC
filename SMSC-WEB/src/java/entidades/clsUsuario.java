@@ -20,7 +20,9 @@ public class clsUsuario {
     private String str_celular;
     private String str_dni;
     private boolean bool_sexo;
+    private String str_clave;
     private Date dat_fecha_nacimiento;
+    private Date dat_fecha_registro;
     private int int_cantidad_falso;
     private int int_estado;
 
@@ -105,6 +107,22 @@ public class clsUsuario {
 
     public void setInt_estado(int int_estado) {
         this.int_estado = int_estado;
+    }
+
+    public String getStr_clave() {
+        return str_clave;
+    }
+
+    public void setStr_clave(String str_clave) {
+        this.str_clave = str_clave;
+    }
+
+    public Date getDat_fecha_registro() {
+        return dat_fecha_registro;
+    }
+
+    public void setDat_fecha_registro(Date dat_fecha_registro) {
+        this.dat_fecha_registro = dat_fecha_registro;
     }
     
 }

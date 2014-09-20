@@ -30,10 +30,14 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.smsc.usuario.dao.clsIncidentesDAO;
+import com.smsc.usuario.dao.clsUsuarioDAO;
+import com.smsc.usuario.entidades.clsIncidente;
 import java.util.List;
 
 /**
@@ -43,7 +47,7 @@ import java.util.List;
 public class MapaActivity extends FragmentActivity implements LocationListener {
  
     private GoogleMap googleMap;
-//    private List<clsSucursal> ListSucursales;
+    private List<clsIncidente> lista;
     private Location Localizacion=null;
  
     @Override
@@ -229,13 +233,27 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
 public void addMaker()
 {
     googleMap.clear();
-//    ListSucursales=clsSucursalDAO.ListarTodos(this);
-//    if(ListSucursales!=null)
-//    for(clsSucursal sucursal:ListSucursales)
-        googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.icono_accidente)).title("Incendio").snippet(""+1).position(new LatLng(-8.1090524,-79.0215336)));
-        googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.icono_homicidio)).title("Incendio").snippet(""+1).position(new LatLng( -8.107260007326138,-79.01472347131113 )));
-        googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.icono_incendio)).title("Incendio").snippet(""+1).position(new LatLng( -8.107127237180672 , -79.01526259532312  )));
-
+    lista=clsIncidentesDAO.Listar(this,false);
+    if(lista!=null)
+    for(clsIncidente entidad : lista)
+    {
+        BitmapDescriptor bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_robo);
+        if(entidad.getInt_id_tipo_incidente()==2)
+            bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_incendio);
+        else if(entidad.getInt_id_tipo_incidente()==3)
+            bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_secuestro);
+        else if(entidad.getInt_id_tipo_incidente()==4)
+            bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_homicidio);
+        else if(entidad.getInt_id_tipo_incidente()==5)
+            bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_accidente);
+        else if(entidad.getInt_id_tipo_incidente()==6)
+            bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_violacion);
+        else if(entidad.getInt_id_tipo_incidente()==7)
+            bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_otros);
+        
+        googleMap.addMarker(new MarkerOptions().icon(bimap).title(entidad.getStr_tipo_incidente_nombre()).snippet(""+entidad.getInt_id_incidente()).position(new LatLng(entidad.getDou_latitud(),entidad.getDou_longitud())));
+    }
+     
 
     
         googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -272,8 +290,26 @@ public void addMaker()
         
         switch (item.getItemId()) {
         case R.id.MnuOpc1:  
+            Intent i=new Intent(this,MisIncidentesActivity.class);
+            startActivity(i);   
             return true;
         case R.id.MnuOpc2:  
+             AlertDialog.Builder alert = new AlertDialog.Builder(this);
+             alert.setTitle("Cerrar Sesion");
+                alert.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {  
+                            clsUsuarioDAO.Borrar(MapaActivity.this);
+
+//                            Intent svc = new Intent(MenuActivity.this, clsServicio.class);
+//                            stopService(svc); 
+                            Intent i=new Intent(MapaActivity.this,LoginActivity.class);
+                            startActivity(i); 
+                         
+                        }});
+                alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {  
+                       public void onClick(DialogInterface dialog, int whichButton) {    
+                    }});
+                       alert.show();
             return true;
    
         default:

@@ -41,7 +41,6 @@ public class RegistroUsuarioActivity extends Activity {
     private EditText txtDNI;
     private EditText txtTelefono;
     private EditText txtEmail;
-    private EditText txtDireccion;
     private EditText txtClave;
     private EditText txtRClave;
     private CheckBox chbAcepto;
@@ -60,7 +59,6 @@ public class RegistroUsuarioActivity extends Activity {
         txtDNI = (EditText)findViewById(R.id.txtDNI);
         txtTelefono = (EditText)findViewById(R.id.txtTelefono);                
         txtEmail = (EditText)findViewById(R.id.txtEmail);                
-        txtDireccion = (EditText)findViewById(R.id.txtDireccion);
         txtClave = (EditText)findViewById(R.id.txtClave);
         txtRClave = (EditText)findViewById(R.id.txtRClave);
         chbAcepto = (CheckBox)findViewById(R.id.chbAcepto);  
@@ -95,7 +93,7 @@ public class RegistroUsuarioActivity extends Activity {
      
      public void btnCancelar(View v)
      {
-         Intent i=new Intent(this,MapaActivity.class);
+         Intent i=new Intent(this,LoginActivity.class);
                                     startActivity(i);
      }
      
@@ -113,24 +111,20 @@ public class RegistroUsuarioActivity extends Activity {
                             {
                                 if(Funciones.isValidEmail(txtEmail.getText().toString()))
                                 {
-                                     if(!txtDireccion.getText().toString().equals("") && !txtDireccion.getText().toString().equals(null))
+                                    if(!txtClave.getText().toString().equals("") && !txtClave.getText().toString().equals(null))
                                     {
-                                          if(!txtClave.getText().toString().equals("") && !txtClave.getText().toString().equals(null))
+                                        if(txtRClave.getText().toString().equals(txtClave.getText().toString()))
+                                        {    
+                                            if(chbAcepto.isChecked())
                                             {
-                                                if(txtRClave.getText().toString().equals(txtClave.getText().toString()))
-                                                {    
-                                                    if(chbAcepto.isChecked())
-                                                    {
-                                                        clsUsuario entidad =new clsUsuario();
-                                                        entidad.setStr_nombre(txtNombres.getText().toString());
-                                                        entidad.setStr_apellido(txtApellidos.getText().toString());
-                                                        entidad.setStr_dni(txtDNI.getText().toString());                                
-//                                                        entidad.setBol_sexo(sexo);
-                                                        entidad.setDat_fecha_nacimiento(Funciones.getDate(txtFNacimiento.getText().toString()));
-                                                        entidad.setStr_email(txtEmail.getText().toString());
-                                            
-
-                                                        
+                                                clsUsuario entidad =new clsUsuario();
+                                                entidad.setStr_nombre(txtNombres.getText().toString());
+                                                entidad.setStr_apellido(txtApellidos.getText().toString());
+                                                entidad.setStr_dni(txtDNI.getText().toString());                                
+                                                        entidad.setBool_sexo(sexo);
+                                                entidad.setDat_fecha_nacimiento(Funciones.getDate(txtFNacimiento.getText().toString()));
+                                                entidad.setStr_email(txtEmail.getText().toString());
+                                               
 //                                                        String idusuario= http.setGrabarUsuarioMovil(entidad);
 //
 //                                                         if(!idusuario.trim().equals("0"))
@@ -144,18 +138,16 @@ public class RegistroUsuarioActivity extends Activity {
 //                                                         }       
 //                                                         else
 //                                                             Toast.makeText(this,"Error al Insertar intentelo mas tarde", Toast.LENGTH_SHORT).show();
-                                                             }
-                                                    else
-                                                        Toast.makeText(this,"Tiene que aceptar Terminos y Condiciones", Toast.LENGTH_SHORT).show(); 
-                                            }
-                                                else
-                                                    Toast.makeText(this,"La Clave no coincide", Toast.LENGTH_SHORT).show(); 
+                                                
                                             }
                                             else
-                                                Toast.makeText(this,"Ingrese una Clave", Toast.LENGTH_SHORT).show(); 
+                                                Toast.makeText(this,"Tiene que aceptar Terminos y Condiciones", Toast.LENGTH_SHORT).show(); 
+                                        }
+                                        else
+                                            Toast.makeText(this,"La Clave no coincide", Toast.LENGTH_SHORT).show(); 
                                     }
                                     else
-                                        Toast.makeText(this,"Ingrese una dirección", Toast.LENGTH_SHORT).show(); 
+                                        Toast.makeText(this,"Ingrese una Clave", Toast.LENGTH_SHORT).show(); 
                                 }
                                 else
                                     Toast.makeText(this,"Ingrese un Telefono de 9 Digitos", Toast.LENGTH_SHORT).show();           
