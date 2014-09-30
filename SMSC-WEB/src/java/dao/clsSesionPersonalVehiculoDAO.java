@@ -7,7 +7,10 @@
 package dao;
 
 
+import entidades.clsPersonalVehiculo;
+import entidades.clsSesionPersonalVehiculo;
 import entidades.clsUsuario;
+import entidades.clsVehiculo;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,51 +26,106 @@ import java.util.List;
  * @author virgil
  */
 public class clsSesionPersonalVehiculoDAO {
-    public static clsUsuario login(String dni,String clave) throws Exception 
+    public static clsSesionPersonalVehiculo login(String dni,String clave) throws Exception 
     {
-        clsUsuario objclsUsuario = null;
+        clsSesionPersonalVehiculo objSesionPersonalVehiculo = null;
         
         Connection conn =null;
-        CallableStatement stmt = null;
+        CallableStatement stmt = null;        
         ResultSet dr = null;
         try {
-             String sql="select id_usuario,nombre,apellido,email,celular,dni,sexo,clave,fecha_nacimiento,fecha_registro,"
-                     + "cantidad_falso,estado from usuario where dni like '"+dni+"' and clave like '"+clave+"'";
+             String sql="select spv.id_sesion_personal_vehiculo,spv.fecha_entrada,spv.fecha_salida,spv.estado,pv.id_personal_vehiculo,\n" +
+                        "pv.fecha_registro,pv.estado,pv.id_vehiculo,v.placa,v.numero,v.modelo,v.marca,v.fecha_registro,v.fecha_actualizacion,\n" +
+                        "v.estado from sesion_personal_vehiculo spv  right join personal_vehiculo pv on spv.id_personal_vehiculo=pv.id_personal_vehiculo\n" +
+                        "inner join vehiculo v on pv.id_vehiculo=v.id_vehiculo inner join detalle_personal_vehiculo dpv on\n" +
+                        "pv.id_personal_vehiculo=dpv.id_personal_vehiculo inner join personal p on p.id_personal=dpv.id_personal\n" +
+                        "where p.dni='"+dni+"' and p.clave='"+clave+"' order by spv.id_sesion_personal_vehiculo desc limit 1";
 
             conn = clsConexion.getConnection();
+            conn.setAutoCommit(false);
             stmt = conn.prepareCall(sql);
             dr = stmt.executeQuery();
 
             if(dr.next())
-            {   
-                objclsUsuario = new clsUsuario();
-                objclsUsuario.setInt_id_usuario(dr.getInt(1));
-                objclsUsuario.setStr_nombre(dr.getString(2));
-                objclsUsuario.setStr_apellido(dr.getString(3));
-                objclsUsuario.setStr_email(dr.getString(4));
-                objclsUsuario.setStr_celular(dr.getString(5));      
-                objclsUsuario.setStr_dni(dr.getString(6));      
-                objclsUsuario.setBool_sexo(dr.getBoolean(7));
-                objclsUsuario.setStr_clave(dr.getString(8));  
-                objclsUsuario.setDat_fecha_nacimiento(dr.getTimestamp(9)); 
-                objclsUsuario.setDat_fecha_registro(dr.getTimestamp(10)); 
-                objclsUsuario.setInt_cantidad_falso(dr.getInt(11));
+            {   boolean registro=true;
+                objSesionPersonalVehiculo = new clsSesionPersonalVehiculo();
+                
+                clsVehiculo objVehiculo = new clsVehiculo();                
+                objVehiculo.setInt_id_vehiculo(dr.getInt(8));
+                objVehiculo.setStr_placa(dr.getString(9));
+                objVehiculo.setStr_numero(dr.getString(10));
+                objVehiculo.setStr_modelo(dr.getString(11));
+                objVehiculo.setStr_marca(dr.getString(12));
+                objVehiculo.setDat_fecha_registro(dr.getTimestamp(13)); 
+                objVehiculo.setDat_fecha_actualizacion(dr.getTimestamp(14)); 
+                objVehiculo.setInt_estado(dr.getInt(15));
+                
+                clsPersonalVehiculo objPersonalVehiculo = new clsPersonalVehiculo();
+                objPersonalVehiculo.setInt_id_personal_vehiculo(dr.getInt(5));
+                objPersonalVehiculo.setDat_fecha_registro(dr.getTimestamp(6)); 
+                objPersonalVehiculo.setInt_estado(dr.getInt(7));  
+                objPersonalVehiculo.setObjVehiculo(objVehiculo);
+                
+                if(dr.getInt(1)!=0)
+                {
+                    
+                    objSesionPersonalVehiculo.setInt_sesion_personal_vehiculo(dr.getInt(1));
+                    objSesionPersonalVehiculo.setDat_fecha_entrada(dr.getTimestamp(2)); 
+                    objSesionPersonalVehiculo.setDat_fecha_salida(dr.getTimestamp(3)); 
+                    objSesionPersonalVehiculo.setInt_estado(dr.getInt(4));
+                    if(objSesionPersonalVehiculo.getInt_estado()!=0)
+                    {
+                        registro=false;
+                    }
+                       
+                }
+                else
+                {
+                    registro=false;
+                }
+                
+                if(!registro)
+                {
+                    objSesionPersonalVehiculo.setDat_fecha_entrada(new Date()); 
+                    objSesionPersonalVehiculo.setDat_fecha_salida(new Date()); 
+                    objSesionPersonalVehiculo.setInt_estado(0);
+                    
+                    sql="INSERT INTO sesion_personal_vehiculo(id_personal_vehiculo,fecha_entrada,fecha_salida,estado)"
+                        + " VALUES(?,now(),now(),0);";
+                    PreparedStatement psInsertaSession = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                    psInsertaSession.setInt(1, objPersonalVehiculo.getInt_id_personal_vehiculo());
+                    psInsertaSession.executeUpdate();
+           
+                    ResultSet rsInsertaSession = psInsertaSession.getGeneratedKeys();
+                    if (rsInsertaSession.next()){                        
+                        objSesionPersonalVehiculo.setInt_sesion_personal_vehiculo(rsInsertaSession.getInt(1));                    }
+                    rsInsertaSession.close();
+                    psInsertaSession.close();
+                }
+                
+                
+                
+                
+                
+                
+                objSesionPersonalVehiculo.setObjPersonalVehiculo(objPersonalVehiculo);  
             }
 
-       } catch (Exception e) {
-    
-                throw new Exception("Listar Cargos "+e.getMessage(), e);
-        
+          conn.commit();
+        } catch (Exception e) {
+             if (conn != null) {
+                    conn.rollback();
+                }
+            throw new Exception("Insertar"+e.getMessage(), e);
         }
         finally{
             try {
-                dr.close();
                 stmt.close();
                 conn.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
             }
         }
-        return objclsUsuario;
+        return objSesionPersonalVehiculo;
     }
     
     public  static int insertar(clsUsuario entidad) throws Exception

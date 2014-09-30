@@ -32,14 +32,14 @@ public class NewMain {
 //        entidad.setStr_email("XD");
 //        entidad.setStr_nombre("XD");
 //        System.out.print(""+clsUsuarioDAO.insertar(entidad));
-        
-        clsIncidente entidad = new clsIncidente();
-        entidad.setDou_latitud(0);
-        entidad.setDou_longitud(0);
-        entidad.setObjUsuario(new clsUsuario(1));
-        entidad.setObjTipoIncidente(new clsTipoIncidente(1));
-        entidad.setStr_detalle("XD");
-         System.out.print(""+clsIncidenteDAO.insertar(entidad));
+//        
+//        clsIncidente entidad = new clsIncidente();
+//        entidad.setDou_latitud(0);
+//        entidad.setDou_longitud(0);
+//        entidad.setObjUsuario(new clsUsuario(1));
+//        entidad.setObjTipoIncidente(new clsTipoIncidente(1));
+//        entidad.setStr_detalle("XD");
+         System.out.print(""+clsSesionPersonalVehiculoDAO.login("12345678", "123456").getInt_sesion_personal_vehiculo());
     }
     
 }

@@ -17,6 +17,7 @@ public class clsPersonalVehiculo {
     private int int_id_personal_vehiculo;
     private Date dat_fecha_registro;
     private int int_estado;
+    private clsVehiculo objVehiculo;
     private List<clsDetallePersonalVehiculo> lista;
 
     public clsPersonalVehiculo() {
@@ -52,6 +53,14 @@ public class clsPersonalVehiculo {
 
     public void setLista(List<clsDetallePersonalVehiculo> lista) {
         this.lista = lista;
+    }
+
+    public clsVehiculo getObjVehiculo() {
+        return objVehiculo;
+    }
+
+    public void setObjVehiculo(clsVehiculo objVehiculo) {
+        this.objVehiculo = objVehiculo;
     }
     
 }
