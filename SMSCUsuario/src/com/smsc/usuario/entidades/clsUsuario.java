@@ -20,6 +20,7 @@ public class clsUsuario {
     private String str_celular;
     private String str_dni;
     private boolean bool_sexo;
+    private String str_clave;
     private Date dat_fecha_nacimiento;
 
     public clsUsuario() {
@@ -100,4 +101,13 @@ public class clsUsuario {
     public void setDat_fecha_nacimiento(Date dat_fecha_nacimiento) {
         this.dat_fecha_nacimiento = dat_fecha_nacimiento;
     }
+
+    public String getStr_clave() {
+        return str_clave;
+    }
+
+    public void setStr_clave(String str_clave) {
+        this.str_clave = str_clave;
+    }
+    
 }

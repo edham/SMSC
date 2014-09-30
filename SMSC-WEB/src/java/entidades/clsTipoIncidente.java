@@ -24,6 +24,10 @@ public class clsTipoIncidente {
     public clsTipoIncidente() {
     }
 
+    public clsTipoIncidente(int int_id_tipo_incidente) {
+        this.int_id_tipo_incidente = int_id_tipo_incidente;
+    }
+
     public int getInt_id_tipo_incidente() {
         return int_id_tipo_incidente;
     }

@@ -24,6 +24,7 @@ public class clsIncidente {
     private int int_estado;
 
     public clsIncidente() {
+        this.byte_foto=null;
     }
 
     public int getInt_id_incidente() {

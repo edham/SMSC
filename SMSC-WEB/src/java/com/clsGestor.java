@@ -26,13 +26,24 @@ public class clsGestor {
     {
         return Base64.encodeToString(input,Base64.NO_WRAP|Base64.URL_SAFE);
     }
-     public static clsUsuario loginUsuario(String dni,String clave) throws Exception 
-     {
-         return clsUsuarioDAO.login(dni, clave);
-     }
+    public static clsUsuario loginUsuario(String dni,String clave) throws Exception 
+    {
+        return clsUsuarioDAO.login(dni, clave);
+    }
+     public  static int insertarUsuario(clsUsuario entidad) throws Exception
+    {
+        return clsUsuarioDAO.insertar(entidad);
+    }
       public static List<clsIncidente> listarXUsuarioIncidente(int IdUsuario) throws Exception 
     {
         return clsIncidenteDAO.listarXUsuario(IdUsuario);
     }
-    
+    public  static int insertarIncidente(clsIncidente entidad) throws Exception
+    {
+        return clsIncidenteDAO.insertar(entidad);
+    }
+     public static List<clsIncidente> listarXEstadoIncidente(int estado,int IdUsuario) throws Exception 
+    {
+        return clsIncidenteDAO.listarXEstado(estado, IdUsuario);
+    }
 }

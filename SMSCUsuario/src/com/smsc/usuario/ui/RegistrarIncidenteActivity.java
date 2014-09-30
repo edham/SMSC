@@ -12,14 +12,16 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.smsc.usuario.conexion.http;
+import com.smsc.usuario.dao.clsIncidentesDAO;
+import com.smsc.usuario.dao.clsUsuarioDAO;
+import com.smsc.usuario.entidades.clsIncidente;
 import com.smsc.usuario.utilidades.Funciones;
+import java.util.Date;
 
 import java.util.List;
 
@@ -36,6 +38,8 @@ public class RegistrarIncidenteActivity extends Activity {
      private  ImageView image;
      private Bitmap bp;
      private int idTipoIncidente;
+     private double latitude;
+     private double longitude;
      
     @Override
     public void onCreate(Bundle icicle) {
@@ -43,7 +47,9 @@ public class RegistrarIncidenteActivity extends Activity {
         // ToDo add your GUI initialization code here       
          setContentView(R.layout.registrar_incidente);
           Bundle bundle=getIntent().getExtras();
-          int idTipoIncidente=Integer.valueOf(bundle.getString("ID"));
+          idTipoIncidente=Integer.valueOf(bundle.getString("ID"));
+          latitude=Double.parseDouble(bundle.getString("latitude"));
+          longitude=Double.parseDouble(bundle.getString("longitude"));
          TextView lblTitulo = (TextView)findViewById(R.id.lblTitulo);
          txtAsunto = (EditText)findViewById(R.id.txtAsunto);
          image = (ImageView)findViewById(R.id.image);
@@ -56,26 +62,30 @@ public class RegistrarIncidenteActivity extends Activity {
     {
                 if(!txtAsunto.getText().toString().equals("") &&  txtAsunto.getText().toString()!=null )
                 {
-//                    clsPreguntaPaciente entidad = new clsPreguntaPaciente();
-//                    entidad.setObjPaciente(objPaciente);
-//                    entidad.setObjEspecialidad(objEspecialidad);
-//                    entidad.setStr_asunto(txtAsunto.getText().toString());
-//                    entidad.setStr_paciente_detalle(txtSintomas.getText().toString());
-//                    if(bp!=null)
-//                    entidad.setByte_imagen(Funciones.getByte(bp));
-//                    
-//                    String cadena= http.insertarPreguntaPacuente(entidad);
-//                     if(!cadena.trim().equals("0"))
-//                     {
-//                        entidad.setInt_id_pregunta_paciente(Integer.parseInt(cadena));
-//                        clsPreguntaPacienteDAO.Agregar(this, entidad);                    
-//                        Toast.makeText(this,"Su consulta se envio Satisfactoriamente", Toast.LENGTH_SHORT).show(); 
-//                        Intent i=new Intent(this,MenuActivity.class);
-//                        startActivity(i); 
-//                     }
+                    clsIncidente entidad = new clsIncidente();
+                    entidad.setStr_detalle(txtAsunto.getText().toString());
+                    entidad.setInt_id_usuario(clsUsuarioDAO.Buscar(this).getInt_id_usuario());
+                    entidad.setInt_id_tipo_incidente(idTipoIncidente);
+                    entidad.setStr_tipo_incidente_nombre( Funciones.getNombreIncidente(idTipoIncidente));
+                    entidad.setDat_fecha_registro(new Date());
+                    entidad.setDou_latitud(latitude);
+                    entidad.setDou_longitud(longitude);
+                    entidad.setInt_estado(0);
+                    if(bp!=null)
+                    entidad.setByte_foto(Funciones.getByte(bp));
+                    
+                    String cadena= http.insertarIncidente(entidad);
+                     if(!cadena.trim().equals("0"))
+                     {
+                        entidad.setInt_id_incidente(Integer.parseInt(cadena));
+                        clsIncidentesDAO.Agregar(this, entidad);                    
+                        Toast.makeText(this,"Su Incidente se envio Satisfactoriamente", Toast.LENGTH_SHORT).show(); 
+                        Intent i=new Intent(this,MapaActivity.class);
+                        startActivity(i); 
+                     }
                 }
                 else
-                    Toast.makeText(this,"Ingrese Sintomas", Toast.LENGTH_SHORT).show(); 
+                    Toast.makeText(this,"Ingrese Asunto", Toast.LENGTH_SHORT).show(); 
             
     }
     public void btnCancelar(View v)
@@ -90,7 +100,7 @@ public class RegistrarIncidenteActivity extends Activity {
       startActivityForResult(intent, 0);
     }
     
-     @Override
+   @Override
    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
       // TODO Auto-generated method stub
       super.onActivityResult(requestCode, resultCode, data);

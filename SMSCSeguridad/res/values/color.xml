@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="fondo">#FFF</color>
+     <color name="boton_inicio">#F7F4F4</color>
+   <color name="boton_fin">#C2C2C2</color>   
+   
+    <color name="boton_texto">#4D4C4C</color>
+    <color name="boton_contorno">#4D4C4C</color>
+    
+     <color name="col1">#E1A715</color>
+     <color name="col1_texto">#000000</color>
+     
+      <color name="col2">#212223</color>
+      <color name="col2_texto">#FFFFFFFF</color>
+</resources>

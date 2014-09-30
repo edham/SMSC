@@ -6,9 +6,15 @@
 
 package com.smsc.usuario.utilidades;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
+import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -121,7 +127,7 @@ public static int getEdad(Date pNacio){
 
  public static boolean isTelefono(String tele){
  
-	Pattern dniPattern = Pattern.compile("(\\d{1,9})");
+	Pattern dniPattern = Pattern.compile("(\\d{9})");
 	Matcher m = dniPattern.matcher(tele);
 	if(m.matches()){
 		return true;
@@ -162,5 +168,36 @@ public static boolean verificaConexion(Context context) {
 
         return incidente;
     }
-
+    public static String getMail(Context context) {
+      String possibleEmail=null;
+         
+           try{
+                   Account[] accounts = AccountManager.get(context).getAccountsByType("com.google");
+                    
+                   for (Account account : accounts) {
+                      
+                     possibleEmail =account.name;
+                      
+                   }
+              }
+              catch(Exception e)
+              {
+                   Log.i("Exception", "Exception:"+e) ; 
+              }
+      return possibleEmail;
+  }
+    public static  Bitmap getBitmap (byte[] imageBytes)
+    {
+        return  BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);    
+    }
+    
+    public static byte[]  getByte(Bitmap bitmap)
+    {
+       if (bitmap != null) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            return stream.toByteArray();
+        }
+       return null;
+    } 
 }

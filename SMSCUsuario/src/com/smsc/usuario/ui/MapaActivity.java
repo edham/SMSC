@@ -8,14 +8,15 @@ package com.smsc.usuario.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import static android.content.Context.LOCATION_SERVICE;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,7 +26,6 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
@@ -52,7 +52,27 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
  
     private GoogleMap googleMap;
     private List<clsIncidente> lista;
-    private Location Localizacion=null;
+    
+    private double latitude;
+    private double longitude;
+    // flag for GPS status
+    boolean isGPSEnabled = false;
+ 
+    // flag for network status
+    boolean isNetworkEnabled = false;
+ 
+    // flag for GPS status
+    boolean canGetLocation = false;
+ 
+    Location location; // location
+    
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0; // 10 meters
+ 
+    // The minimum time between updates in milliseconds
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 10; // 1 minute
+ 
+    // Declaring a Location Manager
+    protected LocationManager locationManager;
  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +86,8 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
                     Toast.makeText(MapaActivity.this,"Incendio", Toast.LENGTH_SHORT).show(); 
                     Intent i=new Intent(MapaActivity.this,RegistrarIncidenteActivity.class);
                     i.putExtra("ID",""+2);
+                    i.putExtra("latitude",""+latitude);
+                    i.putExtra("longitude",""+longitude);
                     startActivity(i);
                 }
                 return false;
@@ -80,6 +102,8 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
                     Toast.makeText(MapaActivity.this,"Secuestro", Toast.LENGTH_SHORT).show(); 
                     Intent i=new Intent(MapaActivity.this,RegistrarIncidenteActivity.class);
                     i.putExtra("ID",""+3);
+                    i.putExtra("latitude",""+latitude);
+                    i.putExtra("longitude",""+longitude);
                     startActivity(i);
                 }
                 return false;
@@ -94,6 +118,8 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
                     Toast.makeText(MapaActivity.this,"Homicidio", Toast.LENGTH_SHORT).show(); 
                     Intent i=new Intent(MapaActivity.this,RegistrarIncidenteActivity.class);
                     i.putExtra("ID",""+4);
+                    i.putExtra("latitude",""+latitude);
+                    i.putExtra("longitude",""+longitude);
                     startActivity(i);
                 }
                 return false;
@@ -108,6 +134,8 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
                     Toast.makeText(MapaActivity.this,"Accidente", Toast.LENGTH_SHORT).show(); 
                     Intent i=new Intent(MapaActivity.this,RegistrarIncidenteActivity.class);
                     i.putExtra("ID",""+5);
+                    i.putExtra("latitude",""+latitude);
+                    i.putExtra("longitude",""+longitude);
                     startActivity(i);
                 }
                 return false;
@@ -122,6 +150,8 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
                     Toast.makeText(MapaActivity.this,"Violacion", Toast.LENGTH_SHORT).show(); 
                     Intent i=new Intent(MapaActivity.this,RegistrarIncidenteActivity.class);
                     i.putExtra("ID",""+6);
+                    i.putExtra("latitude",""+latitude);
+                    i.putExtra("longitude",""+longitude);
                     startActivity(i);
                 }
                 return false;
@@ -136,6 +166,8 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
                     Toast.makeText(MapaActivity.this,"Otros", Toast.LENGTH_SHORT).show(); 
                     Intent i=new Intent(MapaActivity.this,RegistrarIncidenteActivity.class);
                     i.putExtra("ID",""+7);
+                    i.putExtra("latitude",""+latitude);
+                    i.putExtra("longitude",""+longitude);
                     startActivity(i);
                 }
                 return false;
@@ -150,6 +182,8 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
                     Toast.makeText(MapaActivity.this,"Robo", Toast.LENGTH_SHORT).show(); 
                     Intent i=new Intent(MapaActivity.this,RegistrarIncidenteActivity.class);
                     i.putExtra("ID",""+1);
+                    i.putExtra("latitude",""+latitude);
+                    i.putExtra("longitude",""+longitude);
                     startActivity(i);
                 }
                 return false;
@@ -180,34 +214,75 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
             googleMap.setMyLocationEnabled(true);
 
             googleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
-            // Getting LocationManager object from System Service LOCATION_SERVICE
-            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
- 
-            // Creating a criteria object to retrieve provider
-            Criteria criteria = new Criteria();
- 
-            // Getting the name of the best provider
-            String provider = locationManager.getBestProvider(criteria, true);
- 
-            // Getting Current Location
-            Location location = locationManager.getLastKnownLocation(provider);
- 
-            if(location!=null){
-                onLocationChanged(location);
-            }
-            locationManager.requestLocationUpdates(provider, 20000, 0, this);
+            
+            getLocation();
         }
         addMaker();
+    }
+     public void getLocation() {
+        try {
+            locationManager = (LocationManager) this
+                    .getSystemService(LOCATION_SERVICE);
+ 
+            // getting GPS status
+            isGPSEnabled = locationManager
+                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
+ 
+            // getting network status
+            isNetworkEnabled = locationManager
+                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+ 
+            if (!isGPSEnabled && !isNetworkEnabled) {
+                // no network provider is enabled
+                 Toast.makeText(this,"Por favor Active su GPS", Toast.LENGTH_SHORT).show();
+            } else {
+                this.canGetLocation = true;
+                // First get location from Network Provider
+                if (isNetworkEnabled) {
+                    locationManager.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            MIN_TIME_BW_UPDATES,
+                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                    Log.d("Network", "Network");
+                    if (locationManager != null) {
+                        location = locationManager
+                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        if (location != null) {
+                            onLocationChanged(location);
+                        }
+                    }
+                }
+                // if GPS Enabled get lat/long using GPS Services
+                if (isGPSEnabled) {
+                    if (location == null) {
+                        locationManager.requestLocationUpdates(
+                                LocationManager.GPS_PROVIDER,
+                                MIN_TIME_BW_UPDATES,
+                                MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                        Log.d("GPS Enabled", "GPS Enabled");
+                        if (locationManager != null) {
+                            location = locationManager
+                                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            if (location != null) {
+                                onLocationChanged(location);
+                            }
+                        }
+                    }
+                }
+            }
+ 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public void onLocationChanged(Location location) {
  
-        Localizacion=location;
-        // Getting latitude of the current location
-        double latitude = location.getLatitude();
+        
+        latitude = location.getLatitude();
  
         // Getting longitude of the current location
-        double longitude = location.getLongitude();
+        longitude = location.getLongitude();
  
         // Creating a LatLng object for the current location
         LatLng latLng = new LatLng(latitude, longitude);
@@ -347,7 +422,7 @@ public void addMaker()
                 alert.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {  
                             clsUsuarioDAO.Borrar(MapaActivity.this);
-
+                            clsIncidentesDAO.Borrar(MapaActivity.this);
 //                            Intent svc = new Intent(MenuActivity.this, clsServicio.class);
 //                            stopService(svc); 
                             Intent i=new Intent(MapaActivity.this,LoginActivity.class);

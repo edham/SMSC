@@ -29,6 +29,10 @@ public class clsUsuario {
     public clsUsuario() {
     }
 
+    public clsUsuario(int int_id_usuario) {
+        this.int_id_usuario = int_id_usuario;
+    }
+
     public int getInt_id_usuario() {
         return int_id_usuario;
     }

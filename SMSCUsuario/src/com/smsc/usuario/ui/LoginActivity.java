@@ -32,7 +32,10 @@ public class LoginActivity extends Activity
     }
      public void btnIngresar(View v)
      {
-	  final String cadena=http.loginUsuario(txtDni.getText().toString(), txtClave.getText().toString());
+        if(!txtDni.getText().toString().equals(null) && !txtClave.getText().toString().equals(null)
+           && !txtDni.getText().toString().equals("") && !txtClave.getText().toString().equals(""))
+        {
+	final String cadena=http.loginUsuario(txtDni.getText().toString(), txtClave.getText().toString());
         if(!cadena.trim().equals("0"))
           {
 	     pd = new ProgressDialog(this);
@@ -59,7 +62,9 @@ public class LoginActivity extends Activity
           }
 	 else
 	    Toast.makeText(this,"Error de Credenciales.", Toast.LENGTH_SHORT).show();
-       
+        }
+        else
+	    Toast.makeText(this,"Por favor ingrese todos los campos.", Toast.LENGTH_SHORT).show();
     }
     
     

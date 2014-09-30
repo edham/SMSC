@@ -16,8 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
+import com.smsc.usuario.conexion.http;
 import com.smsc.usuario.entidades.clsUsuario;
 import com.smsc.usuario.utilidades.Funciones;
 import java.util.ArrayList;
@@ -62,7 +62,7 @@ public class RegistroUsuarioActivity extends Activity {
         txtClave = (EditText)findViewById(R.id.txtClave);
         txtRClave = (EditText)findViewById(R.id.txtRClave);
         chbAcepto = (CheckBox)findViewById(R.id.chbAcepto);  
-        
+        txtEmail.setText(Funciones.getMail(this));
 
          llenarDDL ();
      
@@ -120,25 +120,24 @@ public class RegistroUsuarioActivity extends Activity {
                                                 clsUsuario entidad =new clsUsuario();
                                                 entidad.setStr_nombre(txtNombres.getText().toString());
                                                 entidad.setStr_apellido(txtApellidos.getText().toString());
-                                                entidad.setStr_dni(txtDNI.getText().toString());                                
-                                                        entidad.setBool_sexo(sexo);
+                                                entidad.setStr_dni(txtDNI.getText().toString());    
+                                                entidad.setStr_celular(txtTelefono.getText().toString());    
+                                                entidad.setStr_clave(txtClave.getText().toString());  
+                                                entidad.setBool_sexo(sexo);
                                                 entidad.setDat_fecha_nacimiento(Funciones.getDate(txtFNacimiento.getText().toString()));
                                                 entidad.setStr_email(txtEmail.getText().toString());
                                                
-//                                                        String idusuario= http.setGrabarUsuarioMovil(entidad);
-//
-//                                                         if(!idusuario.trim().equals("0"))
-//                                                         {
-//                                                            entidad.setInt_id_usuario_movil(1);
-//                                                            clsUsuarioMovilDAO.Agregar(this, entidad); 
+                                                String idusuario= http.insertarUsuario(entidad);
 
-//                                                            Toast.makeText(this,"El Usuario se Registro Correctamente", Toast.LENGTH_SHORT).show();
-//                                                            Intent i=new Intent(this,MainActivity.class);
-//                                                            startActivity(i);
-//                                                         }       
-//                                                         else
-//                                                             Toast.makeText(this,"Error al Insertar intentelo mas tarde", Toast.LENGTH_SHORT).show();
-                                                
+                                                 if(!idusuario.trim().equals("0"))
+                                                 {
+                                                    Toast.makeText(this,"El Usuario se Registro Correctamente", Toast.LENGTH_SHORT).show();
+                                                    Intent i=new Intent(this,LoginActivity.class);
+                                                    startActivity(i);
+                                                 }       
+                                                 else
+                                                     Toast.makeText(this,"Error al Insertar intentelo mas tarde", Toast.LENGTH_SHORT).show();
+
                                             }
                                             else
                                                 Toast.makeText(this,"Tiene que aceptar Terminos y Condiciones", Toast.LENGTH_SHORT).show(); 
@@ -150,7 +149,7 @@ public class RegistroUsuarioActivity extends Activity {
                                         Toast.makeText(this,"Ingrese una Clave", Toast.LENGTH_SHORT).show(); 
                                 }
                                 else
-                                    Toast.makeText(this,"Ingrese un Telefono de 9 Digitos", Toast.LENGTH_SHORT).show();           
+                                    Toast.makeText(this,"Ingrese un E-Mail correcto", Toast.LENGTH_SHORT).show();           
                             }
                             else
                                 Toast.makeText(this,"Ingrese un Telefono de 9 Digitos", Toast.LENGTH_SHORT).show();
