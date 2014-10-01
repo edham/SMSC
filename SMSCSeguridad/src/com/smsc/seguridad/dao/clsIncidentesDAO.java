@@ -46,6 +46,7 @@ public class clsIncidentesDAO {
         registro.put("str_usuario_celular",entidad.getStr_usuario_celular());
         registro.put("str_usuario_dni",entidad.getStr_usuario_dni());
         registro.put("str_usuario_email",entidad.getStr_usuario_email());
+        registro.put("int_id_respuesta_incidente",entidad.getInt_id_respuesta_incidente());
         registro.put("dat_usuario_fecha_nacimiento",entidad.getDat_usuario_fecha_nacimiento().getTime());
         if(entidad.isBool_usuario_sexo())
                 registro.put("bool_usuario_sexo",1);
@@ -55,6 +56,7 @@ public class clsIncidentesDAO {
         if(entidad.getByte_foto()!=null)
             registro.put("byte_foto",entidad.getByte_foto());
 
+        
         id = (int) bd.insert(NOMBRE_TABLA, null, registro);
         bd.close();    
         return id;        
@@ -71,7 +73,7 @@ public class clsIncidentesDAO {
              String query="select int_id_incidente,dou_latitud,dou_longitud,str_detalle,dat_fecha_registro,"
                      + "int_estado,int_id_tipo_incidente,str_tipo_incidente_nombre,int_id_usuario,str_usuario_nombre,"
                      + "str_usuario_apellido,str_usuario_celular,str_usuario_dni,str_usuario_email,dat_usuario_fecha_nacimiento,"
-                     + "bool_usuario_sexo,byte_foto from "+NOMBRE_TABLA;
+                     + "bool_usuario_sexo,byte_foto,int_id_respuesta_incidente from "+NOMBRE_TABLA;
 
             Cursor fila=bd.rawQuery(query,null);
             if (fila.moveToFirst())
@@ -97,7 +99,7 @@ public class clsIncidentesDAO {
                 else
                 entidad.setBool_usuario_sexo(false);
                 entidad.setByte_foto(fila.getBlob(16));
-
+                entidad.setInt_id_respuesta_incidente(fila.getInt(17));
             }
         }
         bd.close();   

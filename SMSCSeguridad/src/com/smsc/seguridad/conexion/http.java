@@ -51,5 +51,128 @@ public class http {
         }
      return "-1";
     }
+    public static String loginSesionPersonalVehiculo(String dni,String clave) 
+    {
+    client = new DefaultHttpClient();
+    HttpPost httppost = new HttpPost(url);
 
+    try {
+        List<NameValuePair> Value = new ArrayList<NameValuePair>(3);
+        Value.add(new BasicNameValuePair("IdServicio","2"));
+        Value.add(new BasicNameValuePair("dni",dni));
+        Value.add(new BasicNameValuePair("clave",clave));
+        httppost.setEntity(new UrlEncodedFormEntity(Value));
+        responseGet = client.execute(httppost);
+        resEntityGet = responseGet.getEntity();
+        if (resEntityGet != null) {
+                return  EntityUtils.toString(resEntityGet).trim();
+        }
+        } catch (ClientProtocolException e) {
+            return "-1";
+        } catch (IOException e) {
+            return "-1";
+        }
+     return "-1";
+    }
+    
+    public static String insertarRespuestaIncidente(int IdSession,int IdIncidente) 
+    {
+    client = new DefaultHttpClient();
+    HttpPost httppost = new HttpPost(url);
+
+    try {
+        List<NameValuePair> Value = new ArrayList<NameValuePair>(3);
+        Value.add(new BasicNameValuePair("IdServicio","3"));
+        Value.add(new BasicNameValuePair("IdSession",""+IdSession));
+        Value.add(new BasicNameValuePair("IdIncidente",""+IdIncidente));
+        httppost.setEntity(new UrlEncodedFormEntity(Value));
+        responseGet = client.execute(httppost);
+        resEntityGet = responseGet.getEntity();
+        if (resEntityGet != null) {
+                return  EntityUtils.toString(resEntityGet).trim();
+        }
+        } catch (ClientProtocolException e) {
+            return "-1";
+        } catch (IOException e) {
+            return "-1";
+        }
+     return "-1";
+    }
+    
+    public static String actualizarRespuestaIncidente(int IdRespuesta,int IdIncidente,String descripcion,int estado,byte[] foto) 
+    {
+    client = new DefaultHttpClient();
+    HttpPost httppost = new HttpPost(url);
+    
+    try {
+        List<NameValuePair> Value = new ArrayList<NameValuePair>(6);
+        Value.add(new BasicNameValuePair("IdServicio","4"));
+        Value.add(new BasicNameValuePair("IdRespuesta",""+IdRespuesta));
+        Value.add(new BasicNameValuePair("IdIncidente",""+IdIncidente));
+        Value.add(new BasicNameValuePair("descripcion",descripcion));
+        Value.add(new BasicNameValuePair("estado",""+estado));
+        if(foto!=null)
+        Value.add(new BasicNameValuePair("foto",Base64.encodeToString(foto,Base64.NO_WRAP|Base64.URL_SAFE)));
+        httppost.setEntity(new UrlEncodedFormEntity(Value));
+        responseGet = client.execute(httppost);
+        resEntityGet = responseGet.getEntity();
+        if (resEntityGet != null) {
+                return  EntityUtils.toString(resEntityGet).trim();
+        }
+        } catch (ClientProtocolException e) {
+            return "-1";
+        } catch (IOException e) {
+            return "-1";
+        }
+     return "-1";
+    }
+    
+    public static String cerrarSesionPersonalVehiculo(int IdSesion) 
+    {
+    client = new DefaultHttpClient();
+    HttpPost httppost = new HttpPost(url);
+    
+    try {
+        List<NameValuePair> Value = new ArrayList<NameValuePair>(2);
+        Value.add(new BasicNameValuePair("IdServicio","5"));
+        Value.add(new BasicNameValuePair("IdSesion",""+IdSesion));
+        httppost.setEntity(new UrlEncodedFormEntity(Value));
+        responseGet = client.execute(httppost);
+        resEntityGet = responseGet.getEntity();
+        if (resEntityGet != null) {
+                return  EntityUtils.toString(resEntityGet).trim();
+        }
+        } catch (ClientProtocolException e) {
+            return "-1";
+        } catch (IOException e) {
+            return "-1";
+        }
+     return "-1";
+    }
+    
+    public static String insertarRecorridoSesionPersonalVehiculo(int IdSesion,double longitud,double latitud) 
+    {
+    client = new DefaultHttpClient();
+    HttpPost httppost = new HttpPost(url);
+    
+    try {
+        List<NameValuePair> Value = new ArrayList<NameValuePair>(4);
+        Value.add(new BasicNameValuePair("IdServicio","6"));
+        Value.add(new BasicNameValuePair("IdSesion",""+IdSesion));
+        Value.add(new BasicNameValuePair("longitud",""+longitud));
+        Value.add(new BasicNameValuePair("latitud",""+latitud));
+        httppost.setEntity(new UrlEncodedFormEntity(Value));
+        responseGet = client.execute(httppost);
+        resEntityGet = responseGet.getEntity();
+        if (resEntityGet != null) {
+                return  EntityUtils.toString(resEntityGet).trim();
+        }
+        } catch (ClientProtocolException e) {
+            return "-1";
+        } catch (IOException e) {
+            return "-1";
+        }
+     return "-1";
+    }
+       
 }

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:descendantFocusability="beforeDescendants"
-    android:background="@drawable/fondo_frame"
+    android:background="@drawable/fondo"
     android:focusableInTouchMode="true" >
 
 </LinearLayout>

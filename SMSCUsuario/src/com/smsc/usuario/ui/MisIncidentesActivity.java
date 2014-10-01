@@ -35,7 +35,7 @@ public class MisIncidentesActivity extends Activity {
      */
     
      private  List<clsIncidente> itens=null;
-     private ListView listItinerarioEmpresas;
+     private ListView List;
      private AdaptadorTitulares adaptador;
      
     
@@ -49,7 +49,7 @@ public class MisIncidentesActivity extends Activity {
        
        itens=clsIncidentesDAO.Listar(this,true);
         
-          listItinerarioEmpresas = (ListView)findViewById(R.id.list); 
+          List = (ListView)findViewById(R.id.list); 
           Buscar();    
     }
     public void Buscar()
@@ -58,7 +58,7 @@ public class MisIncidentesActivity extends Activity {
       if(itens!=null && itens.size()!=0)
       {
             adaptador = new AdaptadorTitulares(this);
-            listItinerarioEmpresas.setAdapter(adaptador);
+            List.setAdapter(adaptador);
             
       }
        else

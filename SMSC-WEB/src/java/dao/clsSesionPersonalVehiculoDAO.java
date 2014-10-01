@@ -13,7 +13,6 @@ import entidades.clsPersonal;
 import entidades.clsPersonalVehiculo;
 import entidades.clsSesionPersonalVehiculo;
 import entidades.clsTipoPersonal;
-import entidades.clsUsuario;
 import entidades.clsVehiculo;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -180,36 +179,25 @@ public class clsSesionPersonalVehiculoDAO {
         }
         return objSesionPersonalVehiculo;
     }
-    
-    public  static int insertar(clsUsuario entidad) throws Exception
+      public static boolean cerrar(int IdSesion) throws Exception
     {
-        int rpta = 0;
+        boolean rpta = false;
         Connection conn =null;
-        PreparedStatement stmt = null;
+        CallableStatement stmt = null;
         try {
-            
-           String sql="INSERT INTO usuario (nombre,apellido,email,celular,dni,sexo,clave,"
-                   + "fecha_nacimiento,fecha_registro,cantidad_falso,estado)"
-                   + "VALUES(?,?,?,?,?,?,?,?,now(),0,0);";
-           
+             String sql="UPDATE sesion_personal_vehiculo SET fecha_salida = now()"
+                     + ",estado = 1 WHERE id_sesion_personal_vehiculo = ?";
             conn = clsConexion.getConnection();
-            stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, entidad.getStr_nombre());
-            stmt.setString(2, entidad.getStr_apellido());
-            stmt.setString(3, entidad.getStr_email());
-            stmt.setString(4, entidad.getStr_celular());
-            stmt.setString(5, entidad.getStr_dni());
-            stmt.setBoolean(6, entidad.isBool_sexo());
-            stmt.setString(7, entidad.getStr_clave());
-            stmt.setDate(8, new java.sql.Date(entidad.getDat_fecha_nacimiento().getTime()));
-            stmt.executeUpdate();
-           
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()){
-                rpta=rs.getInt(1);
-            }
-            rs.close();
+            conn.setAutoCommit(false);
+            stmt = conn.prepareCall(sql);
+            stmt.setInt(1, IdSesion);
+            rpta = stmt.executeUpdate() == 1;          
+            conn.commit();
+            
         } catch (Exception e) {
+             if (conn != null) {
+                    conn.rollback();
+                }
             throw new Exception("Insertar"+e.getMessage(), e);
         }
         finally{
@@ -220,5 +208,5 @@ public class clsSesionPersonalVehiculoDAO {
             }
         }
         return rpta;
-    } 
+    }
 }

@@ -216,6 +216,45 @@ public static boolean verificaConexion(Context context) {
         return  e.format(fecha);    
     }
 
+       
+
+    public static double getDistancia(double lat1, double lon1, double lat2, double lon2)
+    {
+            double radius = 6371000; // 6371 kilometers == 3960 miles
+
+            double deltaLat = Math.toRadians(lat2 - lat1);
+            double deltaLon = Math.toRadians(lon2 - lon1);
+
+            // a is the square of half the chord length between the points
+            double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) + Math.cos(Math.toRadians(lat1))
+                            * Math.cos(Math.toRadians(lat2)) * Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+
+            // c is the angular distance in radians
+            double c = 2 * Math.asin(Math.min(1, Math.sqrt(a)));
+
+            return radius * c;
+    }
+    public static boolean getDistancia(double lat1, double lon1, double lat2, double lon2,int distancia)
+    {
+            double radius = 6371000; // 6371 kilometers == 3960 miles
+
+            double deltaLat = Math.toRadians(lat2 - lat1);
+            double deltaLon = Math.toRadians(lon2 - lon1);
+
+            // a is the square of half the chord length between the points
+            double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) + Math.cos(Math.toRadians(lat1))
+                            * Math.cos(Math.toRadians(lat2)) * Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+
+            // c is the angular distance in radians
+            double c = 2 * Math.asin(Math.min(1, Math.sqrt(a)));
+
+            int metros =(int)(radius * c);
+            if(metros>distancia)
+                return true;
             
+            return false;
+    }
+ 
+
 
 }

@@ -31,7 +31,7 @@ public class clsIncidente {
     private String str_usuario_email;
     private Date dat_usuario_fecha_nacimiento;
     private boolean bool_usuario_sexo;
-
+    private int int_id_respuesta_incidente;
     public clsIncidente() {
     }
 
@@ -57,6 +57,7 @@ public class clsIncidente {
         this.str_usuario_email = parametro[14].trim();
         this.dat_usuario_fecha_nacimiento = new Date(Long.parseLong(parametro[15].trim()));
         this.bool_usuario_sexo = Boolean.parseBoolean(parametro[16].trim());
+        this.int_id_respuesta_incidente = Integer.parseInt(parametro[17].trim());
     }
 
     public int getInt_id_incidente() {
@@ -193,6 +194,14 @@ public class clsIncidente {
 
     public void setBool_usuario_sexo(boolean bool_usuario_sexo) {
         this.bool_usuario_sexo = bool_usuario_sexo;
+    }
+
+    public int getInt_id_respuesta_incidente() {
+        return int_id_respuesta_incidente;
+    }
+
+    public void setInt_id_respuesta_incidente(int int_id_respuesta_incidente) {
+        this.int_id_respuesta_incidente = int_id_respuesta_incidente;
     }
 
   

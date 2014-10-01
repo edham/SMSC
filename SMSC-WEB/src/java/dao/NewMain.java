@@ -7,6 +7,8 @@
 package dao;
 
 import entidades.clsIncidente;
+import entidades.clsRespuestaIncidente;
+import entidades.clsSesionPersonalVehiculo;
 import entidades.clsTipoIncidente;
 import entidades.clsUsuario;
 import java.util.Date;
@@ -39,7 +41,7 @@ public class NewMain {
 //        entidad.setObjUsuario(new clsUsuario(1));
 //        entidad.setObjTipoIncidente(new clsTipoIncidente(1));
 //        entidad.setStr_detalle("XD");
-         System.out.print(""+clsSesionPersonalVehiculoDAO.login("12345678", "123456").getObjPersonalVehiculo().getLista().get(0).getId_personal_vehiculo());
+        
     }
     
 }

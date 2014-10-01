@@ -7,8 +7,14 @@
 package com;
 
 import dao.clsIncidenteDAO;
+import dao.clsRecorridoSesionPersonalVehiculoDAO;
+import dao.clsRespuestaIncidenteDAO;
+import dao.clsSesionPersonalVehiculoDAO;
 import dao.clsUsuarioDAO;
 import entidades.clsIncidente;
+import entidades.clsRecorridoSesionPersonalVehiculo;
+import entidades.clsRespuestaIncidente;
+import entidades.clsSesionPersonalVehiculo;
 import entidades.clsUsuario;
 import java.util.List;
 
@@ -46,4 +52,28 @@ public class clsGestor {
     {
         return clsIncidenteDAO.listarXEstado(estado, IdUsuario);
     }
+     public static clsSesionPersonalVehiculo loginSesionPersonalVehiculo(String dni,String clave) throws Exception 
+     {
+         return clsSesionPersonalVehiculoDAO.login(dni, clave);
+     }
+     public  static int insertarRespuestaIncidente(clsRespuestaIncidente entidad) throws Exception
+     {
+         return clsRespuestaIncidenteDAO.insertar(entidad);
+     }
+     public static clsRespuestaIncidente pendienteRespuestaIncidente(int IdSesion) throws Exception 
+     {
+         return clsRespuestaIncidenteDAO.pendiente(IdSesion);
+     }
+     public static boolean actualizarRespuestaIncidente(clsRespuestaIncidente entidad) throws Exception
+     {
+        return clsRespuestaIncidenteDAO.actualizar(entidad);
+     }
+     public static boolean cerrarSesionPersonalVehiculo(int IdSesion) throws Exception
+     {
+         return clsSesionPersonalVehiculoDAO.cerrar(IdSesion);
+     }
+     public  static int insertarRecorridoSesionPersonalVehiculo(clsRecorridoSesionPersonalVehiculo entidad) throws Exception
+     {
+        return clsRecorridoSesionPersonalVehiculoDAO.insertar(entidad);
+     }
 }

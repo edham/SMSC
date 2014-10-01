@@ -24,6 +24,10 @@ public class clsSesionPersonalVehiculo {
     public clsSesionPersonalVehiculo() {
     }
 
+    public clsSesionPersonalVehiculo(int int_sesion_personal_vehiculo) {
+        this.int_sesion_personal_vehiculo = int_sesion_personal_vehiculo;
+    }
+
     public int getInt_sesion_personal_vehiculo() {
         return int_sesion_personal_vehiculo;
     }

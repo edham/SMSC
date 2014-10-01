@@ -17,7 +17,11 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import com.smsc.seguridad.conexion.http;
+import com.smsc.seguridad.dao.clsSesionPersonalVehiculoDAO;
+import com.smsc.seguridad.entidades.clsSesionPersonalVehiculo;
 import com.smsc.seguridad.ui.R;
+import com.smsc.seguridad.utilidades.Funciones;
 
 /**
  *
@@ -27,13 +31,14 @@ public class GPSTrackService extends Service {
  private LocationManager lm;
  private MyLocationListener mll;
  boolean isGPSEnabled = false;
- 
+ private clsSesionPersonalVehiculo objSesionPersonalVehiculo;
     // flag for network status
     boolean isNetworkEnabled = false;
  
     // flag for GPS status
     boolean canGetLocation = false;
-    
+    private double latitud=0;
+    private double longitud=0;
     protected LocationManager locationManager;
   private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0; // 10 meters
  
@@ -50,6 +55,7 @@ public class GPSTrackService extends Service {
   super.onCreate();
   lm = (LocationManager)getSystemService(LOCATION_SERVICE);
   mll = new MyLocationListener();
+  objSesionPersonalVehiculo=clsSesionPersonalVehiculoDAO.Buscar(this.getApplication());
  }
 
  @Override
@@ -90,6 +96,16 @@ public class GPSTrackService extends Service {
    intent.putExtra("Lat", location.getLatitude());
    intent.putExtra("Long", location.getLongitude());
    sendBroadcast(intent);
+   if(Funciones.getDistancia(location.getLatitude(), location.getLongitude(), latitud, longitud, 10))
+   {
+   
+    String id=http.insertarRecorridoSesionPersonalVehiculo(objSesionPersonalVehiculo.getInt_sesion_personal_vehiculo(),location.getLongitude(),location.getLatitude());
+    if(!id.trim().equals("0"))
+     {
+        latitud=location.getLatitude();
+        longitud= location.getLongitude();
+     }
+   }
   }
 
   @Override

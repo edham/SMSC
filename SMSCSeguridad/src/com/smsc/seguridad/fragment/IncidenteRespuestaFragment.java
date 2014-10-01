@@ -1,6 +1,7 @@
  package com.smsc.seguridad.fragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,9 +15,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.smsc.seguridad.conexion.http;
 import com.smsc.seguridad.dao.clsIncidentesDAO;
 import com.smsc.seguridad.entidades.clsIncidente;
 import com.smsc.seguridad.ui.R;
+import static com.smsc.seguridad.ui.R.drawable.foto;
 import com.smsc.seguridad.utilidades.Funciones;
 
 
@@ -108,39 +112,59 @@ public class IncidenteRespuestaFragment extends Fragment {
    }
     public void btnAceptar()
     {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this.getActivity());
-        alert.setTitle("Validar Incidente");
-        alert.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int whichButton) {  
-                Intent intent=new Intent("Fragment");            
-                intent.putExtra("parametro", 0);
-                FragmentActivity activity = getActivity();
-                activity.sendBroadcast(intent);
+         if(!txtAsunto.getText().toString().equals(null) && !txtAsunto.getText().toString().equals(""))
+        {           
+            AlertDialog.Builder alert = new AlertDialog.Builder(this.getActivity());
+            alert.setTitle("Validar Incidente");
+            alert.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {  
+                
+                    ActulizaIncidente(2);
 
+                }});
+            alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {  
+               public void onClick(DialogInterface dialog, int whichButton) {    
             }});
-        alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {  
-           public void onClick(DialogInterface dialog, int whichButton) {    
-        }});
-        alert.show();
+            alert.show();
+        }
+         else
+              Toast.makeText(this.getActivity(),"Por favor ingrese un Asunto", Toast.LENGTH_SHORT).show();
     }
 
     public void btnCancelar()
     {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this.getActivity());
-        alert.setTitle("Rechazar Incidente");
-        alert.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int whichButton) {  
-                Intent intent=new Intent("Fragment");            
-                intent.putExtra("parametro", 0);
-                FragmentActivity activity = getActivity();
-                activity.sendBroadcast(intent);
+          if(!txtAsunto.getText().toString().equals(null) && !txtAsunto.getText().toString().equals(""))
+        {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this.getActivity());
+            alert.setTitle("Rechazar Incidente");
+            alert.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {  
 
+                    ActulizaIncidente(3);
+
+                }});
+            alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {  
+               public void onClick(DialogInterface dialog, int whichButton) {    
             }});
-        alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {  
-           public void onClick(DialogInterface dialog, int whichButton) {    
-        }});
-        alert.show();
+            alert.show();
+        }
+         else
+              Toast.makeText(this.getActivity(),"Por favor ingrese un Asunto", Toast.LENGTH_SHORT).show();
             
     } 
-       
+    
+    public void ActulizaIncidente(int estado)
+    {
+        
+        String id=http.actualizarRespuestaIncidente(Incidente.getInt_id_respuesta_incidente(), Incidente.getInt_id_incidente(), txtAsunto.getText().toString(),estado,Funciones.getByte(bp));
+        if(!id.trim().equals("0"))
+         {
+            Intent intent=new Intent("Fragment");            
+            intent.putExtra("parametro", 0);
+            FragmentActivity activity = getActivity();
+            activity.sendBroadcast(intent);
+         }
+        
+        
+    }
 }

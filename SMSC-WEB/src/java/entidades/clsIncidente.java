@@ -27,6 +27,10 @@ public class clsIncidente {
         this.byte_foto=null;
     }
 
+    public clsIncidente(int int_id_incidente) {
+        this.int_id_incidente = int_id_incidente;
+    }
+
     public int getInt_id_incidente() {
         return int_id_incidente;
     }
