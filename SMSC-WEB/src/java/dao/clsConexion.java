@@ -6,12 +6,9 @@ import java.sql.DriverManager;
 
 public class clsConexion {
     public static String driver = "com.mysql.jdbc.Driver";
-    public static String url = "jdbc:mysql://192.168.1.5:3306/smsc_bd";
-    public static String usuario = "root";
-    public static String clave = "123456";
-    //public static String url = "jdbc:mysql://192.168.1.191:3306/crud";
-    //public static String usuario = "seguridad815";
-    //public static String clave = "cajamarc@";
+    public static String url = "jdbc:mysql://204.93.216.11:3306/servitec1_smsc";
+    public static String usuario = "servitec1_admin";
+    public static String clave = "@123Soltrux123";
     
     public clsConexion() {
     }

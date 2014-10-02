@@ -23,7 +23,8 @@ import org.apache.http.util.EntityUtils;
 
 public class http {
 
-    private static String url="http://192.168.1.5:8084/servicio/servicio_seguridad.jsp";
+    private static String url="http://serviciostecnologicosintegrales.com/seguridad/servicio/servicio_seguridad.jsp";
+//    private static String url="http://192.168.1.5:8084/servicio/servicio_seguridad.jsp";
     private static HttpClient client;
     private static HttpResponse responseGet;
     private static HttpEntity resEntityGet;

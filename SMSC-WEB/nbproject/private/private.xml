@@ -3,7 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/EdHam/Desktop/SMSC/SMSC-WEB/nbproject/build-impl.xml</file>
+            <file>file:/C:/Users/EdHam/Desktop/SMSC/SMSC-WEB/web/ajax/personal/login.jsp</file>
+            <file>file:/C:/Users/EdHam/Desktop/SMSC/SMSC-WEB/web/servicio/servicio_seguridad.jsp</file>
+            <file>file:/C:/Users/EdHam/Desktop/SMSC/SMSC-WEB/web/servicio/servicio_usuario.jsp</file>
+            <file>file:/C:/Users/EdHam/Desktop/SMSC/SMSC-WEB/web/ajax/personal/get_foto.jsp</file>
         </group>
     </open-files>
 </project-private>

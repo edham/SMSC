@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.smsc.usuario.conexion.http;
 import com.smsc.usuario.dao.clsIncidentesDAO;
 import com.smsc.usuario.dao.clsUsuarioDAO;
 import com.smsc.usuario.entidades.clsIncidente;
@@ -63,13 +64,13 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
  
     // flag for GPS status
     boolean canGetLocation = false;
- 
+    private boolean zoon=true;
     Location location; // location
     
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0; // 10 meters
  
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 10; // 1 minute
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 15; // 1 minute
  
     // Declaring a Location Manager
     protected LocationManager locationManager;
@@ -213,11 +214,19 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
             // Enabling MyLocation Layer of Google Map
             googleMap.setMyLocationEnabled(true);
 
-            googleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+            
+            googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+
+                  
+                    getDetalle(Integer.parseInt(marker.getSnippet()));
+                }
+            });
             
             getLocation();
         }
-        addMaker();
+       
     }
      public void getLocation() {
         try {
@@ -287,13 +296,15 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
         // Creating a LatLng object for the current location
         LatLng latLng = new LatLng(latitude, longitude);
         
-        // Showing the current location in Google Map
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
- 
-        // Zoom in the Google Map
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
- 
- 
+        if(zoon)
+        {
+            googleMap.moveCamera(CameraUpdateFactory.zoomTo(18));
+             googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+            zoon=false;
+        }
+        
+        addMaker();
+        
     }
  
  @Override
@@ -319,8 +330,14 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
 public void addMaker()
 {
     googleMap.clear();
-    lista=clsIncidentesDAO.Listar(this,false);
-    if(lista!=null)
+    lista=clsIncidentesDAO.ListarEstado(this,2);
+    String cadena=http.listarXEstadoIncidente(clsUsuarioDAO.Buscar(this).getInt_id_usuario());
+    if(!cadena.trim().equals("0"))
+    {
+        String [] entidad = cadena.trim().split("\\<+entidad+>");
+         for(int i=0;i<entidad.length;i++)
+             lista.add(new clsIncidente(entidad[i],0));
+    }
     for(int i=0; i<lista.size();i++)
     {
         BitmapDescriptor bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_robo);
@@ -340,16 +357,9 @@ public void addMaker()
         googleMap.addMarker(new MarkerOptions().icon(bimap).title(lista.get(i).getStr_tipo_incidente_nombre()).snippet(""+i).position(new LatLng(lista.get(i).getDou_latitud(),lista.get(i).getDou_longitud())));
     }
      
-
+        Toast.makeText(this,"TOTAL DE INCIDENTES: "+lista.size(), Toast.LENGTH_SHORT).show();
     
-        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                @Override
-                public void onInfoWindowClick(Marker marker) {
-
-                  
-                    getDetalle(Integer.parseInt(marker.getSnippet()));
-                }
-            });
+        
         }
    public void getDetalle(int posicion)
    {
@@ -365,11 +375,13 @@ public void addMaker()
         lblNombreInciente.setText(lista.get(posicion).getStr_tipo_incidente_nombre());
 
         TextView lblEstado = (TextView)dialog.findViewById(R.id.lblEstado);
-        lblEstado.setText("En Progreso");
+        lblEstado.setText("Enviado");
         if(lista.get(posicion).getInt_estado()==1)
-            lblEstado.setText("Verificado");
+            lblEstado.setText("En Progreso");
         else if(lista.get(posicion).getInt_estado()==2)
-            lblEstado.setText("Anulado");
+            lblEstado.setText("Valido");
+         else if(lista.get(posicion).getInt_estado()==3)
+            lblEstado.setText("Invalido");
         SimpleDateFormat  fecha=new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat hora=new SimpleDateFormat("h:mm a");
 

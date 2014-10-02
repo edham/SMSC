@@ -25,7 +25,8 @@ import org.apache.http.util.EntityUtils;
 
 public class http {
 
-    private static String url="http://192.168.1.5:8084/servicio/servicio_usuario.jsp";
+    private static String url="http://serviciostecnologicosintegrales.com/seguridad/servicio/servicio_usuario.jsp";
+//    private static String url="http://192.168.1.5:8084/servicio/servicio_usuario.jsp";
     private static HttpClient client;
     private static HttpResponse responseGet;
     private static HttpEntity resEntityGet;
@@ -100,6 +101,29 @@ public class http {
         Value.add(new BasicNameValuePair("detalle",entidad.getStr_detalle()));
         if(entidad.getByte_foto()!=null)
         Value.add(new BasicNameValuePair("foto",Base64.encodeToString(entidad.getByte_foto(),Base64.NO_WRAP|Base64.URL_SAFE)));
+        httppost.setEntity(new UrlEncodedFormEntity(Value));
+        responseGet = client.execute(httppost);
+        resEntityGet = responseGet.getEntity();
+        if (resEntityGet != null) {
+                return  EntityUtils.toString(resEntityGet).trim();
+        }
+        } catch (ClientProtocolException e) {
+            return "-1";
+        } catch (IOException e) {
+            return "-1";
+        }
+     return "-1";
+}
+       
+    public static String listarXEstadoIncidente(int  IdUsuario) 
+    {
+    client = new DefaultHttpClient();
+    HttpPost httppost = new HttpPost(url);
+    
+    try {
+        List<NameValuePair> Value = new ArrayList<NameValuePair>(2);
+        Value.add(new BasicNameValuePair("IdServicio","4"));
+        Value.add(new BasicNameValuePair("IdUsuario",""+IdUsuario));
         httppost.setEntity(new UrlEncodedFormEntity(Value));
         responseGet = client.execute(httppost);
         resEntityGet = responseGet.getEntity();

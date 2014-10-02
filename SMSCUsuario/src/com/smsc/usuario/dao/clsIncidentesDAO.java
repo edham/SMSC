@@ -120,7 +120,44 @@ public class clsIncidentesDAO {
          }
         bd.close();   
         return list;
-     }       
+     }   
+     
+      public static  List<clsIncidente> ListarEstado(Context context,int estado)
+     {
+        List<clsIncidente> list=new ArrayList<clsIncidente>();
+        bdSQLite admin=new bdSQLite(context,null); 
+        SQLiteDatabase bd=admin.getWritableDatabase();
+         if(bd!=null)
+         {
+            String query="select int_id_incidente,dou_latitud,dou_longitud,str_detalle,"
+                    + "dat_fecha_registro,int_estado,int_id_tipo_incidente,str_tipo_incidente_nombre,"
+                    + "int_id_usuario,byte_foto from "+NOMBRE_TABLA+" where int_estado="+estado;
+
+            Cursor fila=bd.rawQuery(query,null);
+            int numRows = fila.getCount();   
+            fila.moveToFirst();   
+                for (int i = 0; i < numRows; ++i) 
+                {   
+                    clsIncidente entidad= new clsIncidente();            
+                    entidad.setInt_id_incidente(fila.getInt(0));
+                    entidad.setDou_latitud(fila.getDouble(1));
+                    entidad.setDou_longitud(fila.getDouble(2));
+                    entidad.setStr_detalle(fila.getString(3));
+                    entidad.setDat_fecha_registro(new Date(fila.getLong(4)));
+                    entidad.setInt_estado(fila.getInt(5));
+                    entidad.setInt_id_tipo_incidente(fila.getInt(6));
+                    entidad.setStr_tipo_incidente_nombre(fila.getString(7));
+                    entidad.setInt_id_usuario(fila.getInt(8));
+                    entidad.setByte_foto(fila.getBlob(9));
+                    
+                    list.add(entidad);
+                       
+                    fila.moveToNext();   
+                }   
+         }
+        bd.close();   
+        return list;
+     }   
         
      public static void Borrar(Context context) {
      bdSQLite admin=new bdSQLite(context,null);

@@ -33,7 +33,7 @@ public class NewMain {
 //        entidad.setStr_dni("XD");
 //        entidad.setStr_email("XD");
 //        entidad.setStr_nombre("XD");
-//        System.out.print(""+clsUsuarioDAO.insertar(entidad));
+        System.out.print(""+clsEstadisticaDAO.get().getInt_incidente_progeso());
 //        
 //        clsIncidente entidad = new clsIncidente();
 //        entidad.setDou_latitud(0);

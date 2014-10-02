@@ -6,12 +6,16 @@
 
 package com;
 
+import dao.clsEstadisticaDAO;
 import dao.clsIncidenteDAO;
+import dao.clsPersonalDAO;
 import dao.clsRecorridoSesionPersonalVehiculoDAO;
 import dao.clsRespuestaIncidenteDAO;
 import dao.clsSesionPersonalVehiculoDAO;
 import dao.clsUsuarioDAO;
+import entidades.clsEstadistica;
 import entidades.clsIncidente;
+import entidades.clsPersonal;
 import entidades.clsRecorridoSesionPersonalVehiculo;
 import entidades.clsRespuestaIncidente;
 import entidades.clsSesionPersonalVehiculo;
@@ -76,4 +80,17 @@ public class clsGestor {
      {
         return clsRecorridoSesionPersonalVehiculoDAO.insertar(entidad);
      }
+      public static clsPersonal loginPersonal(String dni,String clave) throws Exception 
+      {
+          return clsPersonalDAO.login(dni, clave);
+      }
+      public static List<clsSesionPersonalVehiculo> activasSesionPersonalVehiculo() throws Exception 
+      {
+        return clsSesionPersonalVehiculoDAO.activas();
+     }
+      
+       public static clsEstadistica getEstadistica() throws Exception 
+    {
+        return clsEstadisticaDAO.get();
+    }
 }

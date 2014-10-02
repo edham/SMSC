@@ -88,11 +88,13 @@ public class MisIncidentesActivity extends Activity {
             lblNombreInciente.setText(itens.get(position).getStr_tipo_incidente_nombre());
             
             TextView lblEstado = (TextView)item.findViewById(R.id.lblEstado);
-            lblEstado.setText("En Progreso");
-            if(itens.get(position).getInt_estado()==1)
-                lblEstado.setText("Verificado");
-            else if(itens.get(position).getInt_estado()==2)
-                lblEstado.setText("Anulado");
+            lblEstado.setText("Enviado");
+            if(itens.get(posicion).getInt_estado()==1)
+                lblEstado.setText("En Progreso");
+            else if(itens.get(posicion).getInt_estado()==2)
+                lblEstado.setText("Valido");
+             else if(itens.get(posicion).getInt_estado()==3)
+            lblEstado.setText("Invalido");
             SimpleDateFormat  fecha=new SimpleDateFormat("dd/MM/yyyy");
             SimpleDateFormat hora=new SimpleDateFormat("h:mm a");
 

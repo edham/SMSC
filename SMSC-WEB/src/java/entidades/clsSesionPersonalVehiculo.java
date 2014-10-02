@@ -20,6 +20,8 @@ public class clsSesionPersonalVehiculo {
     private int int_estado;
     private clsPersonalVehiculo objPersonalVehiculo;
     private List<clsRecorridoSesionPersonalVehiculo> lista;
+    private int int_validos;
+    private int int_invalidos;
 
     public clsSesionPersonalVehiculo() {
     }
@@ -74,6 +76,22 @@ public class clsSesionPersonalVehiculo {
 
     public void setLista(List<clsRecorridoSesionPersonalVehiculo> lista) {
         this.lista = lista;
+    }
+
+    public int getInt_validos() {
+        return int_validos;
+    }
+
+    public void setInt_validos(int int_validos) {
+        this.int_validos = int_validos;
+    }
+
+    public int getInt_invalidos() {
+        return int_invalidos;
+    }
+
+    public void setInt_invalidos(int int_invalidos) {
+        this.int_invalidos = int_invalidos;
     }
     
 }

@@ -98,6 +98,35 @@ if(request.getParameter("IdServicio") != null && request.getParameter("IdServici
         else
             out.print("0");
     }
+     else if(idServicio==4 && request.getParameter("IdUsuario") != null && request.getParameter("IdUsuario") !="")
+    {
+         String Datos="";   
+         List<clsIncidente> listaIncidentes=clsGestor.listarXEstadoIncidente(2,Integer.parseInt(request.getParameter("IdUsuario")));
+         if(listaIncidentes!=null)
+         {
+             for(clsIncidente objeto : listaIncidentes)
+             {
+                Datos+=objeto.getInt_id_incidente()+"<parametro>"+
+                        objeto.getDou_latitud()+"<parametro>"+
+                        objeto.getDou_longitud()+"<parametro>"+
+                        objeto.getStr_detalle()+"<parametro>"+
+                        objeto.getDat_fecha_registro().getTime()+"<parametro>"+
+                        objeto.getInt_estado()+"<parametro>";
+                        if(objeto.getByte_foto()==null)
+                            Datos+="0<parametro>";
+                        else
+                         Datos+=clsGestor.getEncodeBase64(objeto.getByte_foto())+"<parametro>";
+                Datos+=objeto.getObjTipoIncidente().getInt_id_tipo_incidente()+"<parametro>"+
+                        objeto.getObjTipoIncidente().getStr_nombre()+"<parametro><entidad>";
+             }
+
+         }
+         else
+             Datos+="0";   
+
+
+         out.print(Datos);
+    }   
     else
         out.print("0");
 }
