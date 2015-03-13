@@ -229,8 +229,7 @@ public class MenuActivity extends FragmentActivity implements RoutingListener{
                                 clsPersonalDAO.Borrar(MenuActivity.this);
                                 Intent svc = new Intent(MenuActivity.this, GPSTrackService.class);
                                 stopService(svc); 
-                                Intent i=new Intent(MenuActivity.this,LoginActivity.class);
-                                startActivity(i); 
+                                android.os.Process.killProcess(android.os.Process.myPid());
 
                              }
                            

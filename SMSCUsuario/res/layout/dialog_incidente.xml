@@ -2,8 +2,8 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="200dp"
-    android:layout_height="fill_parent"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
     android:background="@color/fondo"
     android:gravity="center_vertical|center_horizontal"
     >
@@ -41,7 +41,7 @@ android:orientation="horizontal">
 
     <LinearLayout 
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" 
+    android:layout_height="fill_parent" 
     android:gravity="center"
     android:layout_marginRight="2dp" 
     android:layout_weight="2"
@@ -60,7 +60,7 @@ android:orientation="horizontal">
 
     <LinearLayout 
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
+    android:layout_height="wrap_content" 
     android:gravity="center"
     android:layout_marginLeft="2dp" 
     android:layout_weight="1"
@@ -82,7 +82,7 @@ android:orientation="horizontal">
 
 <LinearLayout 
 android:layout_width="fill_parent"
-android:layout_height="wrap_content"
+android:layout_height="fill_parent"
 android:gravity="center_vertical" 
 android:layout_marginLeft="1dp"
 android:layout_marginRight="1dp"
@@ -91,7 +91,7 @@ android:orientation="horizontal">
 
     <LinearLayout 
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" 
+    android:layout_height="fill_parent" 
     android:gravity="center"
     android:layout_marginRight="2dp" 
     android:layout_weight="2"
@@ -110,7 +110,7 @@ android:orientation="horizontal">
 
     <LinearLayout 
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
+    android:layout_height="wrap_content" 
     android:gravity="center"
     android:layout_marginLeft="2dp" 
     android:layout_weight="1"
@@ -141,7 +141,7 @@ android:orientation="horizontal">
 
     <LinearLayout 
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" 
+    android:layout_height="fill_parent" 
     android:gravity="center"
     android:layout_marginRight="2dp" 
     android:layout_weight="2"
@@ -160,7 +160,7 @@ android:orientation="horizontal">
 
     <LinearLayout 
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
+    android:layout_height="wrap_content" 
     android:gravity="center"
     android:layout_marginLeft="2dp" 
     android:layout_weight="1"
@@ -191,7 +191,7 @@ android:orientation="horizontal">
 
     <LinearLayout 
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" 
+    android:layout_height="fill_parent" 
     android:gravity="center"
     android:layout_marginRight="2dp" 
     android:layout_weight="2"
@@ -210,7 +210,7 @@ android:orientation="horizontal">
 
     <LinearLayout 
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
+    android:layout_height="wrap_content" 
     android:gravity="center"
     android:layout_marginLeft="2dp" 
     android:layout_weight="1"
@@ -229,6 +229,151 @@ android:orientation="horizontal">
     </LinearLayout>
     
 </LinearLayout>
+
+
+<LinearLayout 
+android:id="@+id/ViewFoto"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:gravity="center" 
+android:layout_marginLeft="1dp"
+android:layout_marginRight="1dp"
+android:layout_marginTop="5dp"
+android:background="@drawable/col2"
+android:orientation="vertical">
+ 
+
+       <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" 
+        android:layout_marginBottom="10dp"  />
+
+    
+</LinearLayout>
+
+
+
+<LinearLayout 
+android:id="@+id/ViewCalificacion"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical">
+ 
+<LinearLayout 
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:gravity="center_vertical" 
+android:layout_marginLeft="1dp"
+android:layout_marginRight="1dp"
+android:layout_marginTop="1dp"
+android:orientation="horizontal">
+
+    <LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:gravity="center"
+    android:layout_marginRight="2dp" 
+    android:layout_weight="2"
+    android:background="@drawable/col1"
+    android:orientation="vertical">
+       <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Rapides:"
+        android:textStyle="bold"
+        android:gravity="right"
+        android:textSize="14dp"
+        android:textColor="@color/col1_texto" />
+
+    </LinearLayout>
+
+    <LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" 
+    android:gravity="center"
+    android:layout_marginLeft="2dp" 
+    android:layout_weight="1"
+    android:background="@drawable/col2"
+    android:orientation="vertical">
+        <RatingBar                    
+            android:id="@+id/ratingRapides"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:numStars="5"
+            android:stepSize="1"
+            android:rating="0"
+            android:isIndicator="true"
+            android:layout_gravity="center" />
+    </LinearLayout>
+    
+</LinearLayout>
+
+<LinearLayout 
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:gravity="center_vertical" 
+android:layout_marginLeft="1dp"
+android:layout_marginRight="1dp"
+android:layout_marginTop="1dp"
+android:orientation="horizontal">
+
+    <LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:gravity="center"
+    android:layout_marginRight="2dp" 
+    android:layout_weight="2"
+    android:background="@drawable/col1"
+    android:orientation="vertical">
+       <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Conformidad:"
+        android:textStyle="bold"
+        android:gravity="right"
+        android:textSize="14dp"
+        android:textColor="@color/col1_texto" />
+
+    </LinearLayout>
+
+    <LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" 
+    android:gravity="center"
+    android:layout_marginLeft="2dp" 
+    android:layout_weight="1"
+    android:background="@drawable/col2"
+    android:orientation="vertical">
+         <RatingBar                    
+            android:id="@+id/ratingConformidad"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:numStars="5"
+            android:stepSize="1"
+            android:rating="0"
+            android:isIndicator="true"
+            android:layout_gravity="center" />
+    </LinearLayout>
+    
+</LinearLayout>
+      
+
+    
+</LinearLayout>
+
+
+
+
+
+
+
+
 
      
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

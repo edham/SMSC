@@ -6,20 +6,10 @@
 
 package com;
 
-import dao.clsEstadisticaDAO;
-import dao.clsIncidenteDAO;
-import dao.clsPersonalDAO;
-import dao.clsRecorridoSesionPersonalVehiculoDAO;
-import dao.clsRespuestaIncidenteDAO;
-import dao.clsSesionPersonalVehiculoDAO;
-import dao.clsUsuarioDAO;
-import entidades.clsEstadistica;
-import entidades.clsIncidente;
-import entidades.clsPersonal;
-import entidades.clsRecorridoSesionPersonalVehiculo;
-import entidades.clsRespuestaIncidente;
-import entidades.clsSesionPersonalVehiculo;
-import entidades.clsUsuario;
+
+import dao.*;
+import entidades.*;
+
 import java.util.List;
 
 /**
@@ -93,4 +83,66 @@ public class clsGestor {
     {
         return clsEstadisticaDAO.get();
     }
+    public static boolean calificarIncidente(clsIncidente entidad) throws Exception
+    {
+      return clsIncidenteDAO.calificar(entidad);
+    }
+
+    public static List<clsPersonal> listarPersonal(boolean estado) throws Exception
+    {
+      return clsPersonalDAO.listar(estado);
+    }
+    
+    public  static int insertarPersonal(clsPersonal entidad) throws Exception
+    {
+      return clsPersonalDAO.insertar(entidad);
+    }
+    
+     public static boolean actualizarPersonal(clsPersonal entidad) throws Exception
+    {
+      return clsPersonalDAO.actualizar(entidad);
+    }
+     
+      public static List<clsTipoPersonal> listarTipoPersonal() throws Exception 
+     {
+      return clsTipoPersonalDAO.listar();
+    }
+      
+      
+       public static List<clsDepartamento> listarDepartamento() throws Exception
+       {
+           return clsDepartamentoDAO.listarDepartamento();
+       }
+     public static List<clsDistrito> listarDistritoXProvincia(int IdProvincia) throws Exception
+     {
+         return clsDistritoDAO.listarDistritoXProvincia(IdProvincia);
+     }
+     public static List<clsProvincia> listarProvinciaXDepartamento(int IdDepartamento) throws Exception
+     {
+         return clsProvinciaDAO.listarProvinciaXDepartamento(IdDepartamento);
+     }
+     public static clsDistrito buscarIdProvincia (int idDistrito) throws Exception
+     {
+         return clsDistritoDAO.buscarId(idDistrito);
+     }
+     
+     
+    
+    
+    public  static int insertarVehiculo(clsVehiculo entidad) throws Exception
+    {
+      return clsVehiculoDAO.insertar(entidad);
+    }
+    
+     public static boolean actualizarVehiculo(clsVehiculo entidad) throws Exception
+    {
+      return clsVehiculoDAO.actualizar(entidad);
+    }
+     
+    public static List<clsVehiculo> listarVehiculo(boolean estado) throws Exception
+    {
+      return clsVehiculoDAO.listar(estado);
+    }
+     
+     
 }

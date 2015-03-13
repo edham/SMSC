@@ -24,7 +24,9 @@ public class clsIncidente {
     private int int_id_tipo_incidente;
     private String str_tipo_incidente_nombre;
     private int int_id_usuario;
-
+    private int int_rapides;
+    private int int_conformidad;
+    
     public clsIncidente() {
     }
 
@@ -42,7 +44,10 @@ public class clsIncidente {
             this.byte_foto = Base64.decode(parametro[6].trim(),Base64.NO_WRAP|Base64.URL_SAFE);     
          this.int_id_tipo_incidente = Integer.parseInt(parametro[7].trim());
          this.str_tipo_incidente_nombre = parametro[8].trim();
+         this.int_rapides = Integer.parseInt(parametro[9].trim());
+         this.int_conformidad = Integer.parseInt(parametro[10].trim());
          this.int_id_usuario=idUsuario;
+         
     }
 
     public int getInt_id_incidente() {
@@ -123,6 +128,22 @@ public class clsIncidente {
 
     public void setInt_id_usuario(int int_id_usuario) {
         this.int_id_usuario = int_id_usuario;
+    }
+
+    public int getInt_rapides() {
+        return int_rapides;
+    }
+
+    public void setInt_rapides(int int_rapides) {
+        this.int_rapides = int_rapides;
+    }
+
+    public int getInt_conformidad() {
+        return int_conformidad;
+    }
+
+    public void setInt_conformidad(int int_conformidad) {
+        this.int_conformidad = int_conformidad;
     }
     
 }

@@ -40,7 +40,9 @@ if(request.getParameter("IdServicio") != null && request.getParameter("IdServici
                                     else
                                          Datos+=clsGestor.getEncodeBase64(objeto.getByte_foto())+"<parametro>";
                                     Datos+=objeto.getObjTipoIncidente().getInt_id_tipo_incidente()+"<parametro>"+
-                                    objeto.getObjTipoIncidente().getStr_nombre()+"<parametro><entidad>";
+                                    objeto.getObjTipoIncidente().getStr_nombre()+"<parametro>"+
+                                    objeto.getInt_rapides()+"<parametro>"+
+                                    objeto.getInt_conformidad()+"<parametro><entidad>";
                          }
 
                      }
@@ -117,7 +119,9 @@ if(request.getParameter("IdServicio") != null && request.getParameter("IdServici
                         else
                          Datos+=clsGestor.getEncodeBase64(objeto.getByte_foto())+"<parametro>";
                 Datos+=objeto.getObjTipoIncidente().getInt_id_tipo_incidente()+"<parametro>"+
-                        objeto.getObjTipoIncidente().getStr_nombre()+"<parametro><entidad>";
+                        objeto.getObjTipoIncidente().getStr_nombre()+"<parametro>"+
+                        objeto.getInt_rapides()+"<parametro>"+
+                        objeto.getInt_conformidad()+"<parametro><entidad>";
              }
 
          }
@@ -127,6 +131,21 @@ if(request.getParameter("IdServicio") != null && request.getParameter("IdServici
 
          out.print(Datos);
     }   
+    else if(idServicio==5 && request.getParameter("IdIncidente") != null && request.getParameter("IdIncidente") != "" 
+            && request.getParameter("IdUsuario") != null && request.getParameter("IdUsuario") != "" 
+            && request.getParameter("rapides") != null && request.getParameter("rapides") != "" 
+            && request.getParameter("conformidad") != null && request.getParameter("conformidad") != ""  )
+    {
+        clsIncidente entidad = new clsIncidente();
+        entidad.setObjUsuario(new clsUsuario(Integer.parseInt(request.getParameter("IdUsuario"))));
+        entidad.setInt_id_incidente(Integer.parseInt(request.getParameter("IdUsuario")));
+        entidad.setInt_conformidad(Integer.parseInt(request.getParameter("conformidad")));
+        entidad.setInt_rapides(Integer.parseInt(request.getParameter("rapides")));
+        if(clsGestor.calificarIncidente(entidad))
+            out.print("1");
+        else
+            out.print("0");
+    }
     else
         out.print("0");
 }

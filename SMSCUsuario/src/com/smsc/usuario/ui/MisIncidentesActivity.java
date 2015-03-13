@@ -110,9 +110,9 @@ public class MisIncidentesActivity extends Activity {
                 @Override
                 public void onClick(View view) {
 
-    //               Intent i=new Intent(ItinerarioEmpresasActivity.this,EmpresaDetalleActivity.class);
+                   Intent i=new Intent(MisIncidentesActivity.this,DetalleIncidenteActivity.class);
     //                i.putExtra("idEmpresa",""+itens.get(posicion).getInt_id_empresa());
-    //                startActivity(i); 
+                    startActivity(i); 
                 }
             });
 

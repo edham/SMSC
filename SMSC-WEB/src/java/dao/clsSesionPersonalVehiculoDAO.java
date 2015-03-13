@@ -191,8 +191,7 @@ public class clsSesionPersonalVehiculoDAO {
         }
         return listaSesion;
     }
-    
-    
+       
     public static clsSesionPersonalVehiculo login(String dni,String clave) throws Exception 
     {
         clsSesionPersonalVehiculo objSesionPersonalVehiculo = null;
@@ -343,6 +342,7 @@ public class clsSesionPersonalVehiculoDAO {
         }
         return objSesionPersonalVehiculo;
     }
+    
       public static boolean cerrar(int IdSesion) throws Exception
     {
         boolean rpta = false;

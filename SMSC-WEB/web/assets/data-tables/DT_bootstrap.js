@@ -3,7 +3,7 @@ $.extend( true, $.fn.dataTable.defaults, {
 	"sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 	"sPaginationType": "bootstrap",
 	"oLanguage": {
-		"sLengthMenu": "_MENU_ records per page"
+		"sLengthMenu": "_MENU_ registros por página"
 	}
 } );
 
@@ -48,8 +48,8 @@ $.extend( $.fn.dataTableExt.oPagination, {
 				'</ul>'
 			);
 			var els = $('a', nPaging);
-			$(els[0]).bind( 'click.DT', { action: "previous" }, fnClickHandler );
-			$(els[1]).bind( 'click.DT', { action: "next" }, fnClickHandler );
+			$(els[0]).bind( 'click.DT', { action: "anterior" }, fnClickHandler );
+			$(els[1]).bind( 'click.DT', { action: "siguiente" }, fnClickHandler );
 		},
 
 		"fnUpdate": function ( oSettings, fnDraw ) {

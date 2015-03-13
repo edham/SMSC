@@ -22,6 +22,8 @@ public class clsIncidente {
     private byte[] byte_foto;
     private Date dat_fecha_registro;
     private int int_estado;
+    private int int_rapides;
+    private int int_conformidad;
 
     public clsIncidente() {
         this.byte_foto=null;
@@ -101,6 +103,22 @@ public class clsIncidente {
 
     public void setInt_estado(int int_estado) {
         this.int_estado = int_estado;
+    }
+
+    public int getInt_rapides() {
+        return int_rapides;
+    }
+
+    public void setInt_rapides(int int_rapides) {
+        this.int_rapides = int_rapides;
+    }
+
+    public int getInt_conformidad() {
+        return int_conformidad;
+    }
+
+    public void setInt_conformidad(int int_conformidad) {
+        this.int_conformidad = int_conformidad;
     }
     
 }

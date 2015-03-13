@@ -39,7 +39,6 @@ public class GPSTrackService extends Service {
     boolean canGetLocation = false;
     private double latitud=0;
     private double longitud=0;
-    protected LocationManager locationManager;
   private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0; // 10 meters
  
     // The minimum time between updates in milliseconds
@@ -60,13 +59,12 @@ public class GPSTrackService extends Service {
 
  @Override
  public int onStartCommand(Intent intent, int flags, int startId) {
-        locationManager = (LocationManager) this.getApplicationContext().getSystemService(LOCATION_SERVICE);
 
         // getting GPS status
-        isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        isGPSEnabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
         // getting network status
-        isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        isNetworkEnabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         if (isGPSEnabled && isNetworkEnabled) {
              lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES,

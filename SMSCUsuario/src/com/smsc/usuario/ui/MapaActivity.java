@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -26,6 +27,8 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
@@ -42,6 +45,8 @@ import com.smsc.usuario.conexion.http;
 import com.smsc.usuario.dao.clsIncidentesDAO;
 import com.smsc.usuario.dao.clsUsuarioDAO;
 import com.smsc.usuario.entidades.clsIncidente;
+import com.smsc.usuario.utilidades.Funciones;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -70,7 +75,7 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0; // 10 meters
  
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 15; // 1 minute
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 20; // 1 minute
  
     // Declaring a Location Manager
     protected LocationManager locationManager;
@@ -303,7 +308,34 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
             zoon=false;
         }
         
-        addMaker();
+       
+        lista=clsIncidentesDAO.ListarEstado(this,2);
+        String cadena=http.listarXEstadoIncidente(clsUsuarioDAO.Buscar(this).getInt_id_usuario());
+        if(!cadena.trim().equals("0"))
+        {
+            String [] entidad = cadena.trim().split("\\<+entidad+>");
+             for(int i=0;i<entidad.length;i++)
+                 lista.add(new clsIncidente(entidad[i],0));
+        }
+        googleMap.clear();
+        for(int i=0; i<lista.size();i++)
+        {
+            BitmapDescriptor bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_robo);
+            if(lista.get(i).getInt_id_tipo_incidente()==2)
+                bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_incendio);
+            else if(lista.get(i).getInt_id_tipo_incidente()==3)
+                bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_secuestro);
+            else if(lista.get(i).getInt_id_tipo_incidente()==4)
+                bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_homicidio);
+            else if(lista.get(i).getInt_id_tipo_incidente()==5)
+                bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_accidente);
+            else if(lista.get(i).getInt_id_tipo_incidente()==6)
+                bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_violacion);
+            else if(lista.get(i).getInt_id_tipo_incidente()==7)
+                bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_otros);
+
+            googleMap.addMarker(new MarkerOptions().icon(bimap).title(lista.get(i).getStr_tipo_incidente_nombre()).snippet(""+i).position(new LatLng(lista.get(i).getDou_latitud(),lista.get(i).getDou_longitud())));
+        }
         
     }
  
@@ -327,40 +359,10 @@ public class MapaActivity extends FragmentActivity implements LocationListener {
         
     }
  
-public void addMaker()
-{
-    googleMap.clear();
-    lista=clsIncidentesDAO.ListarEstado(this,2);
-    String cadena=http.listarXEstadoIncidente(clsUsuarioDAO.Buscar(this).getInt_id_usuario());
-    if(!cadena.trim().equals("0"))
-    {
-        String [] entidad = cadena.trim().split("\\<+entidad+>");
-         for(int i=0;i<entidad.length;i++)
-             lista.add(new clsIncidente(entidad[i],0));
-    }
-    for(int i=0; i<lista.size();i++)
-    {
-        BitmapDescriptor bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_robo);
-        if(lista.get(i).getInt_id_tipo_incidente()==2)
-            bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_incendio);
-        else if(lista.get(i).getInt_id_tipo_incidente()==3)
-            bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_secuestro);
-        else if(lista.get(i).getInt_id_tipo_incidente()==4)
-            bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_homicidio);
-        else if(lista.get(i).getInt_id_tipo_incidente()==5)
-            bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_accidente);
-        else if(lista.get(i).getInt_id_tipo_incidente()==6)
-            bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_violacion);
-        else if(lista.get(i).getInt_id_tipo_incidente()==7)
-            bimap=BitmapDescriptorFactory.fromResource(R.drawable.icono_otros);
-        
-        googleMap.addMarker(new MarkerOptions().icon(bimap).title(lista.get(i).getStr_tipo_incidente_nombre()).snippet(""+i).position(new LatLng(lista.get(i).getDou_latitud(),lista.get(i).getDou_longitud())));
-    }
-     
-        Toast.makeText(this,"TOTAL DE INCIDENTES: "+lista.size(), Toast.LENGTH_SHORT).show();
-    
-        
-        }
+
+
+
+
    public void getDetalle(int posicion)
    {
         final Dialog dialog = new Dialog(this);
@@ -391,7 +393,31 @@ public void addMaker()
         TextView lblHora = (TextView)dialog.findViewById(R.id.lblHora);
         lblHora.setText(hora.format(lista.get(posicion).getDat_fecha_registro()));
 
-
+         View ViewFoto = (View)dialog.findViewById(R.id.ViewFoto);
+        if(lista.get(posicion).getByte_foto()==null)
+        {
+             ViewFoto.setVisibility(View.GONE);
+        }
+        else
+        {
+            ImageView image = (ImageView)dialog.findViewById(R.id.image);
+            image.setImageBitmap(Funciones.getBitmap(lista.get(posicion).getByte_foto()));
+        }
+        
+         View ViewCalificacion = (View)dialog.findViewById(R.id.ViewCalificacion);
+        if(lista.get(posicion).getInt_rapides()==0 && lista.get(posicion).getInt_conformidad()==0)
+        {
+             ViewCalificacion.setVisibility(View.GONE);
+        }
+        else
+        {
+            RatingBar ratingRapides = (RatingBar)dialog.findViewById(R.id.ratingRapides);
+            ratingRapides.setRating(lista.get(posicion).getInt_rapides());
+            
+            RatingBar ratingConformidad = (RatingBar)dialog.findViewById(R.id.ratingConformidad);
+            ratingConformidad.setRating(lista.get(posicion).getInt_conformidad());
+        }
+        
         Button btnAceptar = (Button) dialog.findViewById(R.id.btnAceptar);
         btnAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -437,8 +463,8 @@ public void addMaker()
                             clsIncidentesDAO.Borrar(MapaActivity.this);
 //                            Intent svc = new Intent(MenuActivity.this, clsServicio.class);
 //                            stopService(svc); 
-                            Intent i=new Intent(MapaActivity.this,LoginActivity.class);
-                            startActivity(i); 
+                            
+                            android.os.Process.killProcess(android.os.Process.myPid());
                          
                         }});
                 alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {  

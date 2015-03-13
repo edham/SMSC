@@ -30,6 +30,8 @@ public class bdSQLite extends SQLiteOpenHelper {
                                 + "int_id_tipo_incidente integer NOT NULL,"
                                 + "str_tipo_incidente_nombre text NOT NULL,"
                                 + "int_id_usuario integer NOT NULL,"
+                                + "int_rapides integer NOT NULL,"
+                                + "int_conformidad integer NOT NULL,"
                                 + "byte_foto blob)";
 
 	public bdSQLite(Context context, CursorFactory factory) {
