@@ -155,121 +155,37 @@ if(objPersonal!=null)
 				<!-- BEGIN PAGE CONTENT-->
 				 <div id="page" class="dashboard">
                                    <div class="row-fluid">
-                        <div class="span3">
-                            <!-- BEGIN PROGRESS BARS PORTLET-->
-                            <div class="widget">
-                                <div class="widget-title">
-                                    <h4><i class="icon-reorder"></i>Agregar Personal</h4>
-                                        <span class="tools">
-                                        <a href="javascript:;" class="icon-chevron-down"></a>
-                                                                                </span>
-                                </div>
-                                <div class="widget-body">
-                               <!-- BEGIN FORM-->
-                                   <form id="form"  class="form-horizontal" action="">
-
-                                      <div class="control-group ">
-                                        
-                                        <div class="input-prepend">
-                                            <input id="txtNombres" name="txtNombres" type="text" placeholder="Nombres" required/>
-                                        </div>
-                                        
-                                        
-                                        <div class="input-prepend">
-                                            <input id="txtAPaterno" name="txtAPaterno" type="text" placeholder="Apellidos Paterno" required/>
-                                        </div>
-                                        
-                                       
-                                        <div class="input-prepend">
-                                            <input id="txtAMaterno" name="txtAMaterno" type="text" placeholder="Apellidos Materno" required/>
-                                        </div>
-                                        
-                                       
-                                        <div class="input-prepend">
-                                            <input id="txtDNI" name="txtDNI" type="text" placeholder="DNI" required/>
-                                        </div>
-                                         <div class="input-prepend">
-                                            <input id="txtFNacimiento" name="txtFNacimiento" data-date-format="dd/mm/yyyy"  placeholder="Fecha de Nacimiento"size="16" type="text"/>
-                                        </div>
-                                     
-                                       
-                                        <div>                                                  
-                                            <select id="cbTipoPersonal" name="cbTipoPersonal" title="Selecione un Tipo de Personal!" required>
-                                                <option value="">espere un momento...</option>                                                       
-                                            </select>
-                                        </div>
-                                        <div>                                                  
-                                            <select id="cbDepartamento" name="cbDepartamento" onchange="getProvincia(this.value)" title="Por favor selecione un departamento!" required>
-                                                <option value="">espere un momento...</option>                                                       
-                                            </select>
-                                        </div>
-                                         
-                                       
-                                        <div>    
-                                            <select id="cbProvincia" name="cbProvincia" onchange="getDistrito(this.value)" title="Por favor selecione una provincia!" required>
-                                                <option value="">Selecione una opcción</option>
-                                            </select>
-                                        </div>
-
-                                      
-                                        <div>                                                  
-                                            <select id="cbDistrito" name="cbDistrito" title="Por favor selecione un distrito!" required>
-                                                <option value="">Selecione una opcción</option>
-                                            </select>
-                                        </div>
-
-                                       
-                                        <div class="input-prepend">        
-                                            <input id="txtTelefono" name="txtTelefono" type="text" placeholder="Telefono" required/>
-                                        </div>
-                                        
-                                      
-                                        <div class="input-prepend">
-                                            <input id="txtCelular" name="txtCelular" type="text" placeholder="Celular" required/>
-                                        </div>
-                                        
-                                     
-                                        <div class="input-prepend">
-                                            <input id="txtEmail" name="txtEmail" type="text" placeholder="Email" required/>
-                                        </div>
-                                         
-                                        <div class="input-prepend">
-                                            <textarea id="txtDireccion" name="txtDireccion" class="input-large" rows="3"  placeholder="Dirección" required></textarea>
-                                           
-                                        </div>
-                                          <div class="input-prepend">
-                                         <label class="radio inline">
-                                            <input type="radio" value="1"  id="rbEstado" name="rbEstado" />
-                                                Activo
-                                        </label>
-                                        <label class="radio inline">
-                                                <input type="radio" value="0" id="rbEstado" name="rbEstado" />
-                                                Inactivo
-                                        </label> 
-                                          </div>  
-                                      </div>
-                                       <br>
-                                      <button type="submit" class="btn btn-success">Save</button>
-                                      <button type="button" onclick="limpiar()" class="btn">Cancel</button>
-
-                                    </form>
-                        <!-- END FORM-->
-
-                                </div>
-                            </div>
-                            <!-- END PROGRESS BARS PORTLET-->
-                        </div>
-                        <div class="span9">
+                          <div class="span7">
                             <!-- BEGIN ALERTS PORTLET-->
                             <div class="widget">
                                 <div class="widget-title">
-                                    <h4><i class="icon-reorder"></i> Lista de Personal</h4>
+                                    <h4><i class="icon-reorder"></i> Lista</h4>
 									<span class="tools">
 									<a href="javascript:;" class="icon-chevron-down"></a>
 									</span>
                                 </div>
                                 <div class="widget-body">
-                                    <div id="tabla"></div>
+                                    <h4>Personal</h4>
+                                    <div id="tablaPersonal"></div>
+                                    <h4>Vehiculo</h4>
+                                    <div id="tablaVehiculo"></div>
+                                    
+                                </div>
+                            </div>
+                            <!-- END ALERTS PORTLET-->
+                        </div>               
+                        <div class="span5">
+                            <!-- BEGIN ALERTS PORTLET-->
+                            <div class="widget">
+                                <div class="widget-title">
+                                    <h4><i class="icon-reorder"></i> Lista</h4>
+									<span class="tools">
+									<a href="javascript:;" class="icon-chevron-down"></a>
+									</span>
+                                </div>
+                                <div class="widget-body">
+                                    
+                                    
                                 </div>
                             </div>
                             <!-- END ALERTS PORTLET-->
@@ -319,132 +235,37 @@ if(objPersonal!=null)
    <script type="text/javascript" src="assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script> 
         <script src="assets/moment_js/moment.min.js"></script>
 	<script>
-function tabla()
+function tablaPersonal()
 {
-     $('#tabla').html('<center id="tabla"><h4><img src="img/ajax-loader.gif" alt="" /> Espere un Momento ...</h4></center>');
+     $('#tablaPersonal').html('<center id="tablaPersonal"><h4><img src="img/ajax-loader.gif" alt="" /> Espere un Momento ...</h4></center>');
    
      $.ajax({
-        url: 'ajax/personal/tabla.jsp',
+        url: 'ajax/personal/tabla_.jsp',
         type: 'POST',
         success: function (data) {     
-                 $('#tabla').html(data);
+                 $('#tablaPersonal').html(data);
         },
         contentType: false,
         processData: false
     });          
  };
-function comboTipoPersonal()
+ function tablaVehiculo()
 {
+     $('#tablaVehiculo').html('<center id="tablaVehiculo"><h4><img src="img/ajax-loader.gif" alt="" /> Espere un Momento ...</h4></center>');
+   
      $.ajax({
-        url: 'ajax/tipo_personal/combo.jsp',
+        url: 'ajax/vehiculo/tabla_.jsp',
         type: 'POST',
         success: function (data) {     
-                 $('#cbTipoPersonal').html(data);
+                 $('#tablaVehiculo').html(data);
         },
         contentType: false,
         processData: false
     });          
  };
- function comboDepartamento()
-{
-     $.ajax({
-        url: 'ajax/ubigeo/combo_departamento.jsp',
-        type: 'POST',
-        success: function (data) {     
-                 $('#cbDepartamento').html(data);
-        },
-        contentType: false,
-        processData: false
-    });          
- };
- function getUbigeo(departamento,provincia,distrito){
-                $("select#cbDepartamento").val(departamento);
-                 
-                $('#cbProvincia option[value=]').text('espere un momento...');               
-                var url = "ajax/ubigeo/combo_provincia.jsp?id="+departamento; 
-
-                                    $.ajax({
-                                           type: "POST",
-                                           url: url,
-                                           success: function(data)
-                                           {
-                                               $("#cbProvincia").html(data);
-                                               $("select#cbProvincia").val(provincia);
-                                               url = "ajax/ubigeo/combo_distrito.jsp?id="+provincia; 
-
-                                                $.ajax({
-                                                       type: "POST",
-                                                       url: url,
-                                                       success: function(data)
-                                                       {
-                                                            $("#cbDistrito").html(data);
-                                                            $("select#cbDistrito").val(distrito);
-
-                                                       }
-                                                     });    
-                                           }
-                                         });    
-                  
-  }
-  function getProvincia(id){
-     
-                if(id!="")
-                {
-                 $('#cbProvincia option[value=]').text('espere un momento...');
-                 $("#cbDistrito").val(0);
-                var url = "ajax/ubigeo/combo_provincia.jsp?id="+id; 
-
-                                    $.ajax({
-                                           type: "POST",
-                                           url: url,
-                                           success: function(data)
-                                           {
-                                                $("#cbProvincia").html(data);
-                                                $("#cbProvincia").change();
-                                           }
-                                         });    
-                  }
-                   else
-                  {
-                      $("#cbProvincia").val(0);
-                  }
-            }
-  function getDistrito(id){
-                
-                if(id!="")
-                {
-                $('#cbDistrito option[value=]').text('espere un momento...');
-                var url = "ajax/ubigeo/combo_distrito.jsp?id="+id; 
-
-                                    $.ajax({
-                                           type: "POST",
-                                           url: url,
-                                           success: function(data)
-                                           {
-                                                $("#cbDistrito").html(data);
-                                                
-                                           }
-                                         });    
-                  }
-                  else
-                  {
-                      $("#cbDistrito").val(0);
-                  }
-            }
-  tabla();
-  comboTipoPersonal();
-  comboDepartamento();
-          function limpiar(){
-                smoke.confirm('Desea Lipiar Formulario',function(e){
-                    if (e){
-                            $('#form')[0].reset();
-                             var validator = $( "#form" ).validate();
-                            validator.resetForm();
-                    }
-            }, {cancel:"No",ok:"Si"});  
-           
-          };
-          
+ 
+ tablaVehiculo();
+   tablaPersonal();
          function cerrarSesion(){
             smoke.confirm('Desea Cerrar Sesión',function(e){
                     if (e){
@@ -456,82 +277,9 @@ function comboTipoPersonal()
 			// initiate layout and plugins
                      
 			App.init();
-                        
-                        $('#form').validate({
-            onkeyup: false,
-            errorClass: 'error',
-            validClass: 'valid',
-            rules: {
-                    txtNombres: { required: true},
-                    txtAPaterno: { required: true},
-                    txtAMaterno: { required: true},
-                    txtDNI: { required: true},
-                    txtTelefono: { required: true},
-                    txtCelular: { required: true},                        
-                    txtEmail: { required: true },
-                    txtDireccion: { required: true },
-                    rbEstado: { required: true },
-                    txtFNacimiento: { required: true },
-                            
-            },
-            submitHandler: function() {    
-                 var url = "ajax/personal/login.jsp"; 
-                $.ajax({
-                       type: "POST",
-                       url: url,
-                       data: $("#form").serialize(), 
-                       success: function(data)
-                       {
-                           if(data==1)
-                           {
-                                window.location='intranet.jsp'; 
 
-                           }else if(data==0)
-                           {
-                               $.gritter.add({text: 'Error de Credenciales.'});
-                           }else if(data==-1)
-                           {
-                               $.gritter.add({text: 'Problemas con el Sevidor intentelo mas tarde.'});
-                           }
-
-
-                       }
-                     });    
-            },
-            highlight: function(element) {
-                    $(element).closest('div').addClass("f_error");
-            },
-            unhighlight: function(element) {
-                    $(element).closest('div').removeClass("f_error");
-            },
-            errorPlacement: function(error, element) {
-                    $(element).closest('div').append(error);
-            }
-        }); 
-        
-        $('#txtFNacimiento').datepicker();
 		});
-            function edit_form(id,nombre,materno,paterno,dni,idTipo,idDeprtamento,idProvincia,idDistrito,telefono,celular,email,direccion,nacimiento,estado) {
-                    $('#txtNombres').val(nombre);
-                    $('#txtAPaterno').val(paterno);
-                    $('#txtAMaterno').val(materno);
-                    $('#txtDNI').val(dni);
-                    $("select#cbTipoPersonal").val(idTipo); 
-                     getUbigeo(idDeprtamento,idProvincia,idDistrito);
-                    $('#cbProvincia').val(nombre);
-                    $('#txtTelefono').val(telefono);
-                    $('#txtCelular').val(celular);
-                    $('#txtEmail').val(email);
-                    $('#txtDireccion').val(direccion);
-                    $('#txtDescripcion').val(nacimiento);
-                    $('#txtFNacimiento').val(nacimiento);              
-                   
-                    if(estado==0)
-                        $('input:radio[name=rbEstado]')[0].checked = true;
-                    else
-                        $('input:radio[name=rbEstado]')[1].checked = true;
-                };  
-	</script>
+        </script>
 	<!-- END JAVASCRIPTS -->
 </body>
 <!-- END BODY -->
