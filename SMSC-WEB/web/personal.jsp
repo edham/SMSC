@@ -33,6 +33,7 @@ if(objPersonal!=null)
 	<link href="assets/jqvmap/jqvmap/jqvmap.css" media="screen" rel="stylesheet" type="text/css" />
          <link rel="stylesheet" href="assets/qtip2/jquery.qtip.min.css" />
         <link rel="stylesheet" href="assets/smoke/smoke.css" />
+        <link rel="stylesheet" type="text/css" href="assets/gritter/css/jquery.gritter.css" />
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -96,7 +97,7 @@ if(objPersonal!=null)
 			<!-- END RESPONSIVE QUICK SEARCH FORM -->
 			<!-- BEGIN SIDEBAR MENU -->
 			<ul class="sidebar-menu">
-                                <li class="has-sub active">
+                                <li class="has-sub">
                                     <a href="javascript:;" class="">
                                         <span class="icon-box"> <i class="icon-dashboard"></i></span> Dashboard
                                         <span class="arrow"></span>
@@ -107,7 +108,7 @@ if(objPersonal!=null)
 
                                     </ul>
                                 </li>
-				<li class="has-sub ">
+				<li class="has-sub active">
 					<a href="javascript:;" class="">
 					    <span class="icon-box"> <i class="icon-tasks"></i></span> Resgistros
                                             <span class="arrow"></span>
@@ -167,9 +168,9 @@ if(objPersonal!=null)
                                 <div class="widget-body">
                                <!-- BEGIN FORM-->
                                    <form id="form"  class="form-horizontal" action="">
-
                                       <div class="control-group ">
-                                        
+                                                                                                   
+                                       
                                         <div class="input-prepend">
                                             <input id="txtNombres" name="txtNombres" type="text" placeholder="Nombres" required/>
                                         </div>
@@ -232,7 +233,10 @@ if(objPersonal!=null)
                                         <div class="input-prepend">
                                             <input id="txtEmail" name="txtEmail" type="text" placeholder="Email" required/>
                                         </div>
-                                         
+                                        
+                                         <div class="input-prepend">
+                                            <input id="txtClave" name="txtClave" type="text" placeholder="Clave" required/>
+                                        </div>
                                         <div class="input-prepend">
                                             <textarea id="txtDireccion" name="txtDireccion" class="input-large" rows="3"  placeholder="Dirección" required></textarea>
                                            
@@ -247,8 +251,21 @@ if(objPersonal!=null)
                                                 Inactivo
                                         </label> 
                                           </div>  
+                                          
+                                          
                                       </div>
+                                       
+                                        <div class="input-prepend">                                                                                                    
+                                            <div id="foto"></div>    
+                                            <input class="btn" type="file" name="archivo" id="archivo" />
+                                            <br>
+                                            <a id="Remover" data-dismiss="fileupload" class="btn" href="#">Remover</a>
+                                        </div>
+                                        <div class="input-prepend">
+                                            <input type="text" name="txtFoto" id="txtFoto"/> 
+                                        </div>
                                        <br>
+                                      <input type="hidden" id="Id"  name="Id" value="" />
                                       <button type="submit" class="btn btn-success">Save</button>
                                       <button type="button" onclick="limpiar()" class="btn">Cancel</button>
 
@@ -315,7 +332,8 @@ if(objPersonal!=null)
         <script src="assets/validation/jquery.validate.min.js"></script>
           <script type="text/javascript" src="assets/data-tables/jquery.dataTables.js"></script>
         <script type="text/javascript" src="assets/data-tables/DT_bootstrap.js"></script>
-        
+            
+        <script type="text/javascript" src="assets/gritter/js/jquery.gritter.js"></script>
    <script type="text/javascript" src="assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script> 
         <script src="assets/moment_js/moment.min.js"></script>
 	<script>
@@ -440,6 +458,8 @@ function comboTipoPersonal()
                             $('#form')[0].reset();
                              var validator = $( "#form" ).validate();
                             validator.resetForm();
+                            $("#foto").html('<div id="foto"></div>');
+                            $( "#Remover" ).hide();
                     }
             }, {cancel:"No",ok:"Si"});  
            
@@ -454,7 +474,44 @@ function comboTipoPersonal()
           }
 		jQuery(document).ready(function() {
 			// initiate layout and plugins
-                     
+$( "#Remover" ).hide();
+ $( "#txtFoto" ).hide();
+ 
+ $('#archivo').change(function (e) {
+    var input=e.target,fr=new FileReader(),
+	tipos=/^image\/jpg|image\/jpeg|image\/png|image\/gif$/i;
+	if(input.files.length===0)return;
+	if(!tipos.test(input.files[0].type)){alert("El archivo selecionado es inválido");return;}
+	fr.onload=function(evt){
+		var im=evt.target.result;
+		redimensionar(im,150,150);
+	}
+    fr.readAsDataURL(input.files[0]);
+});
+$( "#Remover" ).click(function() {
+    $("#foto").html('<div id="foto"></div>');
+    $('#txtFoto').val("");
+    $( "#Remover" ).hide();
+});
+
+function redimensionar(im,maxWidth,maxHeight){
+	var i=new Image();
+	i.onload=function(){
+		var w=this.width,
+		h=this.height,
+		scale=Math.min(maxWidth/w,maxHeight/h),
+		canvas=document.createElement('canvas'),
+		ctx=canvas.getContext('2d');
+		canvas.width=w*scale;
+		canvas.height=h*scale;
+		ctx.drawImage(i,0,0,w*scale,h*scale);
+                $("#foto").html('<img class="fileupload-preview thumbnail" src="'+canvas.toDataURL()+'">');
+		$('#txtFoto').val(canvas.toDataURL());
+                 $( "#Remover" ).show()();
+		
+	}
+	i.src=im;
+}  
 			App.init();
                         
                         $('#form').validate({
@@ -471,28 +528,39 @@ function comboTipoPersonal()
                     txtEmail: { required: true },
                     txtDireccion: { required: true },
                     rbEstado: { required: true },
+                    txtClave: { required: true },
                     txtFNacimiento: { required: true },
+                    txtFoto: { required: true }
+                    
                             
             },
             submitHandler: function() {    
-                 var url = "ajax/personal/login.jsp"; 
+                 var url = "ajax/personal/operacion.jsp"; 
                 $.ajax({
                        type: "POST",
                        url: url,
                        data: $("#form").serialize(), 
                        success: function(data)
                        {
-                           if(data==1)
+                           if(data>0)
                            {
-                                window.location='intranet.jsp'; 
-
+                                $.gritter.add({text: 'Se grabo Correctamente.'});
+                                tabla();    
+                                 $('#form')[0].reset();
+                                 $("#foto").html('<div id="foto"></div>');
+                                 $( "#Remover" ).hide();
                            }else if(data==0)
                            {
-                               $.gritter.add({text: 'Error de Credenciales.'});
+                                 $.gritter.add({text: 'Se actualizo Correctamente.'});
+                                 tabla();
+                                  $('#form')[0].reset();
+                                  $("#foto").html('<div id="foto"></div>');
+                                  $( "#Remover" ).hide();
                            }else if(data==-1)
                            {
                                $.gritter.add({text: 'Problemas con el Sevidor intentelo mas tarde.'});
                            }
+                           $('#Id').val("");
 
 
                        }
@@ -511,7 +579,8 @@ function comboTipoPersonal()
         
         $('#txtFNacimiento').datepicker();
 		});
-            function edit_form(id,nombre,materno,paterno,dni,idTipo,idDeprtamento,idProvincia,idDistrito,telefono,celular,email,direccion,nacimiento,estado) {
+            function edit_form(id,nombre,materno,paterno,dni,idTipo,idDeprtamento,idProvincia,idDistrito,telefono,celular,email,direccion,nacimiento,clave,estado) {
+                    $('#Id').val(id);
                     $('#txtNombres').val(nombre);
                     $('#txtAPaterno').val(paterno);
                     $('#txtAMaterno').val(materno);
@@ -525,7 +594,12 @@ function comboTipoPersonal()
                     $('#txtDireccion').val(direccion);
                     $('#txtDescripcion').val(nacimiento);
                     $('#txtFNacimiento').val(nacimiento);              
-                   
+                    $('#txtClave').val(clave); 
+                    
+                    var url = "ajax/personal/get_foto.jsp?Id="+id; 
+                    $("#foto").html("<img  id='foto' style='height:150px;width:120px' <img src='"+url+"'>");
+                    $( "#Remover" ).show();
+                     $('#txtFoto').val(url); 
                     if(estado==0)
                         $('input:radio[name=rbEstado]')[0].checked = true;
                     else

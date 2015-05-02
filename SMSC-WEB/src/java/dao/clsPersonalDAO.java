@@ -12,6 +12,7 @@ import entidades.clsDistrito;
 import entidades.clsPersonal;
 import entidades.clsProvincia;
 import entidades.clsTipoPersonal;
+import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
@@ -71,7 +72,8 @@ public class clsPersonalDAO {
                 objPersonal.setStr_dni(dr.getString(9));
                 objPersonal.setStr_clave(dr.getString(10));
                 objPersonal.setInt_puntos(dr.getInt(11));
-                objPersonal.setByte_foto(dr.getBytes(12));
+                Blob image = dr.getBlob(12);
+                objPersonal.setByte_foto(image.getBytes(1,(int)image.length())); 
                 objPersonal.setDat_fecha_nacimiento(dr.getTimestamp(13)); 
                 objPersonal.setDat_fecha_registro(dr.getTimestamp(14)); 
                 objPersonal.setDat_fecha_actualizacion(dr.getTimestamp(15)); 
@@ -157,7 +159,8 @@ public class clsPersonalDAO {
                 objPersonal.setStr_dni(dr.getString(9));
                 objPersonal.setStr_clave(dr.getString(10));
                 objPersonal.setInt_puntos(dr.getInt(11));
-                objPersonal.setByte_foto(dr.getBytes(12));
+                Blob image = dr.getBlob(12);
+                objPersonal.setByte_foto(image.getBytes(1,(int)image.length())); 
                 objPersonal.setDat_fecha_nacimiento(dr.getTimestamp(13)); 
                 objPersonal.setDat_fecha_registro(dr.getTimestamp(14)); 
                 objPersonal.setDat_fecha_actualizacion(dr.getTimestamp(15)); 
@@ -191,7 +194,7 @@ public class clsPersonalDAO {
         PreparedStatement stmt = null;
         try {
             
-           String sql="INSERT INTO usuario (id_tipo_personal,id_distrito,nombre,"
+           String sql="INSERT INTO personal (id_tipo_personal,id_distrito,nombre,"
                    + "apellido_paterno,apellido_materno,telefono,celular,email,"
                    + "direccion,dni,clave,puntos,fecha_nacimiento,fecha_registro,"
                    + "fecha_actualizacion,estado,foto)"
@@ -238,10 +241,10 @@ public class clsPersonalDAO {
         Connection conn =null;
         CallableStatement stmt = null;
         try {
-             String sql="UPDATE usuario SET id_tipo_personal=?,id_distrito=?,nombre=?,"
+             String sql="UPDATE personal SET id_tipo_personal=?,id_distrito=?,nombre=?,"
                      + "apellido_paterno=?,apellido_materno=?,telefono=?,celular=?,"
                      + "email=?,direccion=?,dni=?,clave=?,fecha_nacimiento=?"
-                     + ",fecha_actualizacion=now(),estado=?,foto=?, WHERE id_personal = ?;";
+                     + ",fecha_actualizacion=now(),estado=?,foto=? WHERE id_personal = ?";
              
             conn = clsConexion.getConnection();
             stmt = conn.prepareCall(sql);             
@@ -258,6 +261,7 @@ public class clsPersonalDAO {
             stmt.setString(11, entidad.getStr_clave());
             stmt.setDate(12, new Date(entidad.getDat_fecha_nacimiento().getTime()));
             stmt.setInt(13, entidad.getInt_estado());
+            
             stmt.setBytes(14, entidad.getByte_foto());
             stmt.setInt(15, entidad.getInt_id_personal());
            rpta = stmt.executeUpdate() == 1;

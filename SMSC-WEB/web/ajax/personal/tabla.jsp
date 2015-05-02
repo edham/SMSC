@@ -52,7 +52,7 @@ if(list!=null)
                             <%=entidad.getObjDistrito().getObjProvincia().getObjDepartamento().getInt_id_departamento()%>,
                             <%=entidad.getObjDistrito().getObjProvincia().getInt_id_provincia()%>,<%=entidad.getObjDistrito().getInt_id_distrito()%>,
                             '<%=entidad.getStr_telefono()%>','<%=entidad.getStr_celular()%>','<%=entidad.getStr_email()%>','<%=entidad.getStr_direccion()%>',
-                            '<%=e.format(entidad.getDat_fecha_nacimiento())%>',<%=entidad.getInt_estado()%>)" class="comp_edit btn btn-primary btn-mini">Editar</a></center> 
+                            '<%=e.format(entidad.getDat_fecha_nacimiento())%>','<%=entidad.getStr_clave()%>',<%=entidad.getInt_estado()%>)" class="comp_edit btn btn-primary btn-mini">Editar</a></center> 
             </td>
         </tr>
 

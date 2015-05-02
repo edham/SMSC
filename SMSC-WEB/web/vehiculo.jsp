@@ -33,6 +33,7 @@ if(objPersonal!=null)
 	<link href="assets/jqvmap/jqvmap/jqvmap.css" media="screen" rel="stylesheet" type="text/css" />
          <link rel="stylesheet" href="assets/qtip2/jquery.qtip.min.css" />
         <link rel="stylesheet" href="assets/smoke/smoke.css" />
+        <link rel="stylesheet" type="text/css" href="assets/gritter/css/jquery.gritter.css" />
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -96,7 +97,7 @@ if(objPersonal!=null)
 			<!-- END RESPONSIVE QUICK SEARCH FORM -->
 			<!-- BEGIN SIDEBAR MENU -->
 			<ul class="sidebar-menu">
-                                <li class="has-sub active">
+                                <li class="has-sub">
                                     <a href="javascript:;" class="">
                                         <span class="icon-box"> <i class="icon-dashboard"></i></span> Dashboard
                                         <span class="arrow"></span>
@@ -107,7 +108,7 @@ if(objPersonal!=null)
 
                                     </ul>
                                 </li>
-				<li class="has-sub ">
+				<li class="has-sub active">
 					<a href="javascript:;" class="">
 					    <span class="icon-box"> <i class="icon-tasks"></i></span> Resgistros
                                             <span class="arrow"></span>
@@ -179,10 +180,10 @@ if(objPersonal!=null)
                                             <input id="txtModelo" name="txtModelo" type="text" placeholder="Modelo" required/>
                                         </div>
                                         
-                                       
-                                        <div class="input-prepend">
-                                            <input id="txtPlaca" name="txtPlaca" type="text" placeholder="Placa" required/>
+                                       <div class="input-prepend">
+                                            <input id="txtNPlaca" name="txtNPlaca" type="text" placeholder="N° placa" required/>
                                         </div>
+                                      
                                         
                                        
                                         <div class="input-prepend">
@@ -190,20 +191,21 @@ if(objPersonal!=null)
                                         </div>
                                          
                                        
-                                          <div class="input-prepend">
-                                         <label class="radio inline">
-                                            <input type="radio" value="1"  id="rbEstado" name="rbEstado" />
-                                                Activo
-                                        </label>
-                                        <label class="radio inline">
-                                                <input type="radio" value="0" id="rbEstado" name="rbEstado" />
-                                                Inactivo
-                                        </label> 
-                                          </div>  
+                                       <div class="input-prepend">
+                                            <label class="radio inline">
+                                                 <input type="radio" value="1"  id="rbEstado" name="rbEstado" />
+                                                    Activo
+                                            </label>
+                                            <label class="radio inline">
+                                                    <input type="radio" value="0" id="rbEstado" name="rbEstado" />
+                                                    Inactivo
+                                            </label> 
+                                        </div>  
                                       </div>
                                        <br>
-                                      <button type="submit" class="btn btn-success">Save</button>
-                                      <button type="button" onclick="limpiar()" class="btn">Cancel</button>
+                                     <input type="hidden" id="Id"  name="Id" value="" />
+                                      <button type="submit" class="btn btn-success">Aceptar</button>
+                                      <button type="button" onclick="limpiar()" class="btn">Cancelar</button>
 
                                     </form>
                         <!-- END FORM-->
@@ -267,7 +269,8 @@ if(objPersonal!=null)
         <script src="assets/smoke/smoke.js"></script>
         <script src="assets/validation/jquery.validate.min.js"></script>
           <script type="text/javascript" src="assets/data-tables/jquery.dataTables.js"></script>
-        <script type="text/javascript" src="assets/data-tables/DT_bootstrap.js"></script>
+        <script type="text/javascript" src="assets/data-tables/DT_bootstrap.js"></script>        
+        <script type="text/javascript" src="assets/gritter/js/jquery.gritter.js"></script>
         
    <script type="text/javascript" src="assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script> 
         <script src="assets/moment_js/moment.min.js"></script>
@@ -410,39 +413,44 @@ function comboTipoPersonal()
                      
 			App.init();
                         
-                        $('#form').validate({
+            $('#form').validate({
             onkeyup: false,
             errorClass: 'error',
             validClass: 'valid',
             rules: {
                     txtMarca: { required: true},
                     txtModelo: { required: true},
-                    txtPlaca: { required: true},
-                    txtNumero: { required: true},
+                    txtNPlaca: { required: true},
+                    txtNumero: { required: true,  number: true},
                     rbEstado: { required: true}
                             
             },
-            submitHandler: function() {    
-                 var url = "ajax/personal/login.jsp"; 
+            submitHandler: function() {   
+                
+                 var url = "ajax/vehiculo/operacion.jsp"; 
                 $.ajax({
                        type: "POST",
                        url: url,
                        data: $("#form").serialize(), 
                        success: function(data)
                        {
-                           if(data==1)
+                           
+                           if(data>0)
                            {
-                                window.location='intranet.jsp'; 
-
+                                $.gritter.add({text: 'Se grabo Correctamente.'});
+                                tabla();    
+                                 $('#form')[0].reset();
                            }else if(data==0)
                            {
-                               $.gritter.add({text: 'Error de Credenciales.'});
+                                 $.gritter.add({text: 'Se actualizo Correctamente.'});
+                                 tabla();
+                                  $('#form')[0].reset();
                            }else if(data==-1)
                            {
                                $.gritter.add({text: 'Problemas con el Sevidor intentelo mas tarde.'});
                            }
-
-
+                           $('#Id').val("");
+                           
                        }
                      });    
             },
@@ -461,8 +469,9 @@ function comboTipoPersonal()
     });
                 
             function edit_form(id,marca,modelo,placa,numero,estado) {
+                    $('#Id').val(id);
                     $('#txtNumero').val(numero);
-                    $('#txtPlaca').val(placa);
+                    $('#txtNPlaca').val(placa);
                     $('#txtModelo').val(modelo);
                     $('#txtMarca').val(marca);    
                     if(estado==0)

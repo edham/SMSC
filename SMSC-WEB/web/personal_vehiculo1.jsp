@@ -27,12 +27,11 @@ if(objPersonal!=null)
 	<link href="css/style.css" rel="stylesheet" />
 	<link href="css/style_responsive.css" rel="stylesheet" />
 	<link href="css/style_default.css" rel="stylesheet" id="style_color" />
-
+         <link rel="stylesheet" type="text/css" href="assets/bootstrap-datepicker/css/datepicker.css" />
 	<link href="assets/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
 	<link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
-	<link href="assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
 	<link href="assets/jqvmap/jqvmap/jqvmap.css" media="screen" rel="stylesheet" type="text/css" />
-        
+         <link rel="stylesheet" href="assets/qtip2/jquery.qtip.min.css" />
         <link rel="stylesheet" href="assets/smoke/smoke.css" />
 </head>
 <!-- END HEAD -->
@@ -108,7 +107,7 @@ if(objPersonal!=null)
 
                                     </ul>
                                 </li>
-				<li class="has-sub ">
+				<li class="has-sub active">
 					<a href="javascript:;" class="">
 					    <span class="icon-box"> <i class="icon-tasks"></i></span> Resgistros
                                             <span class="arrow"></span>
@@ -120,7 +119,7 @@ if(objPersonal!=null)
 
                                         </ul>
 				</li>
-				<li class="has-sub active">
+				<li class="has-sub">
 					<a href="javascript:;" class="">
 					    <span class="icon-box"> <i class="icon-file-alt"></i></span> Reportes
 					    <span class="arrow"></span>
@@ -143,19 +142,57 @@ if(objPersonal!=null)
 					
 						<ul class="breadcrumb">
 							<li>
-                                <a href="intranet.jsp"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+                                <a href="#"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
 							</li>
-                            <li>
-                                <a href="#">Reporte de Incidentes</a> <span class="divider">&nbsp;</span>
-                            </li>
-						
+                          
+							<li><a href="#">Estadisticas</a><span class="divider-last">&nbsp;</span></li>
+                           
 						</ul>
 						<!-- END PAGE TITLE & BREADCRUMB-->
 					</div>
 				</div>
 				<!-- END PAGE HEADER-->
 				<!-- BEGIN PAGE CONTENT-->
-				<div id="page" class="dashboard"></div>
+				 <div id="page" class="dashboard">
+                                   <div class="row-fluid">
+                          <div class="span7">
+                            <!-- BEGIN ALERTS PORTLET-->
+                            <div class="widget">
+                                <div class="widget-title">
+                                    <h4><i class="icon-reorder"></i> Lista</h4>
+									<span class="tools">
+									<a href="javascript:;" class="icon-chevron-down"></a>
+									</span>
+                                </div>
+                                <div class="widget-body">
+                                    <h4>Personal</h4>
+                                    <div id="tablaPersonal"></div>
+                                    <h4>Vehiculo</h4>
+                                    <div id="tablaVehiculo"></div>
+                                    
+                                </div>
+                            </div>
+                            <!-- END ALERTS PORTLET-->
+                        </div>               
+                        <div class="span5">
+                            <!-- BEGIN ALERTS PORTLET-->
+                            <div class="widget">
+                                <div class="widget-title">
+                                    <h4><i class="icon-reorder"></i> Lista</h4>
+									<span class="tools">
+									<a href="javascript:;" class="icon-chevron-down"></a>
+									</span>
+                                </div>
+                                <div class="widget-body">
+                                    
+                                    
+                                </div>
+                            </div>
+                            <!-- END ALERTS PORTLET-->
+                        </div>
+                    </div>
+
+                                </div>
 				<!-- END PAGE CONTENT-->
 			</div>
 			<!-- END PAGE CONTAINER-->
@@ -176,7 +213,6 @@ if(objPersonal!=null)
 	<script src="js/jquery-1.8.3.min.js"></script>
 	<script src="assets/jquery-slimscroll/jquery-ui-1.9.2.custom.min.js"></script>
 	<script src="assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="assets/fullcalendar/fullcalendar/fullcalendar.min.js"></script>
 	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
 	<script src="js/jquery.blockui.js"></script>
 	<script src="js/jquery.cookie.js"></script>
@@ -185,14 +221,51 @@ if(objPersonal!=null)
 	<script src="js/excanvas.js"></script>
 	<script src="js/respond.js"></script>
 	<![endif]-->
+	<script src="assets/jquery-knob/js/jquery.knob.js"></script>
 
-   
+    <script src="assets/flot/jquery.flot.crosshair.js"></script>
+ <script src="js/scripts.js"></script>
 	<script src="js/jquery.peity.min.js"></script>
 	<script type="text/javascript" src="assets/uniform/jquery.uniform.min.js"></script>
-	<script src="js/scripts.js"></script>
         <script src="assets/smoke/smoke.js"></script>
+        <script src="assets/validation/jquery.validate.min.js"></script>
+          <script type="text/javascript" src="assets/data-tables/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="assets/data-tables/DT_bootstrap.js"></script>
+        
+   <script type="text/javascript" src="assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script> 
+        <script src="assets/moment_js/moment.min.js"></script>
 	<script>
+function tablaPersonal()
+{
+     $('#tablaPersonal').html('<center id="tablaPersonal"><h4><img src="img/ajax-loader.gif" alt="" /> Espere un Momento ...</h4></center>');
+   
+     $.ajax({
+        url: 'ajax/personal/tabla_.jsp',
+        type: 'POST',
+        success: function (data) {     
+                 $('#tablaPersonal').html(data);
+        },
+        contentType: false,
+        processData: false
+    });          
+ };
+ function tablaVehiculo()
+{
+     $('#tablaVehiculo').html('<center id="tablaVehiculo"><h4><img src="img/ajax-loader.gif" alt="" /> Espere un Momento ...</h4></center>');
+   
+     $.ajax({
+        url: 'ajax/vehiculo/tabla_.jsp',
+        type: 'POST',
+        success: function (data) {     
+                 $('#tablaVehiculo').html(data);
+        },
+        contentType: false,
+        processData: false
+    });          
+ };
  
+ tablaVehiculo();
+   tablaPersonal();
          function cerrarSesion(){
             smoke.confirm('Desea Cerrar Sesión',function(e){
                     if (e){
@@ -204,10 +277,9 @@ if(objPersonal!=null)
 			// initiate layout and plugins
                      
 			App.init();
-                        
-                        
+
 		});
-	</script>
+        </script>
 	<!-- END JAVASCRIPTS -->
 </body>
 <!-- END BODY -->

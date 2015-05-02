@@ -29,7 +29,7 @@ public class NewMain {
 //        entidad.setStr_dni("XD");
 //        entidad.setStr_email("XD");
 //        entidad.setStr_nombre("XD");
-       System.out.print(""+clsVehiculoDAO.listar(true).size());
+       System.out.print(""+clsPersonalVehiculoDAO.listar(true).size());
 //        
 //        clsIncidente entidad = new clsIncidente();
 //        entidad.setDou_latitud(0);

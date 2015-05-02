@@ -9,6 +9,10 @@ public class clsDistrito {
     public clsDistrito() {
     }
 
+    public clsDistrito(int int_id_distrito) {
+        this.int_id_distrito = int_id_distrito;
+    }
+
     public int getInt_id_distrito() {
         return int_id_distrito;
     }
