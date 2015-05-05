@@ -27,13 +27,13 @@ if(objPersonal!=null)
 	<link href="css/style.css" rel="stylesheet" />
 	<link href="css/style_responsive.css" rel="stylesheet" />
 	<link href="css/style_default.css" rel="stylesheet" id="style_color" />
-
+         <link rel="stylesheet" type="text/css" href="assets/bootstrap-datepicker/css/datepicker.css" />
 	<link href="assets/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
 	<link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
-	<link href="assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
 	<link href="assets/jqvmap/jqvmap/jqvmap.css" media="screen" rel="stylesheet" type="text/css" />
-        
+         <link rel="stylesheet" href="assets/qtip2/jquery.qtip.min.css" />
         <link rel="stylesheet" href="assets/smoke/smoke.css" />
+        <link rel="stylesheet" type="text/css" href="assets/gritter/css/jquery.gritter.css" />
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -148,14 +148,41 @@ if(objPersonal!=null)
                             <li>
                                 <a href="#">Reporte de Incidentes</a> <span class="divider">&nbsp;</span>
                             </li>
-						
+                            
 						</ul>
 						<!-- END PAGE TITLE & BREADCRUMB-->
 					</div>
 				</div>
 				<!-- END PAGE HEADER-->
 				<!-- BEGIN PAGE CONTENT-->
-				<div id="page" class="dashboard"></div>
+                                <div id="page" class="dashboard">
+                                     <div class="row-fluid">
+                       
+                        <div class="span12">
+                            <!-- BEGIN ALERTS PORTLET-->
+                            <div class="widget">
+                                <div class="widget-title">
+                                    <h4><i class="icon-reorder"></i>Reporte de Incidemtes</h4>
+									<span class="tools">
+									<a href="javascript:;" class="icon-chevron-down"></a>
+									</span>
+                                </div>
+                                <div class="widget-body">
+                                     <center><a href="#" onclick="getReporte()" class="comp_edit btn btn-primary" >Generar Reporte</a></center>
+    
+                                    <div id="tabla"></div>
+                                    			
+                                       
+                                </div>
+                            </div>
+                            <!-- END ALERTS PORTLET-->
+                        </div>
+                    </div>
+                                    
+                                    
+                                    
+                                    
+                                </div>
 				<!-- END PAGE CONTENT-->
 			</div>
 			<!-- END PAGE CONTAINER-->
@@ -187,12 +214,41 @@ if(objPersonal!=null)
 	<![endif]-->
 
    
+	<script src="assets/jquery-knob/js/jquery.knob.js"></script>
+
+    <script src="assets/flot/jquery.flot.crosshair.js"></script>
+ <script src="js/scripts.js"></script>
 	<script src="js/jquery.peity.min.js"></script>
 	<script type="text/javascript" src="assets/uniform/jquery.uniform.min.js"></script>
-	<script src="js/scripts.js"></script>
         <script src="assets/smoke/smoke.js"></script>
+        <script src="assets/validation/jquery.validate.min.js"></script>
+          <script type="text/javascript" src="assets/data-tables/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="assets/data-tables/DT_bootstrap.js"></script>        
+        <script type="text/javascript" src="assets/gritter/js/jquery.gritter.js"></script>
+        
+   <script type="text/javascript" src="assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script> 
+        <script src="assets/moment_js/moment.min.js"></script>
 	<script>
- 
+  function getReporte()
+{
+     window.location='ajax/incidente/reporte.jsp';
+ };
+     
+ function tabla()
+{
+     $('#tabla').html('<center id="tabla"><h4><img src="img/ajax-loader.gif" alt="" /> Espere un Momento ...</h4></center>');
+   
+     $.ajax({
+        url: 'ajax/incidente/tabla.jsp',
+        type: 'POST',
+        success: function (data) {     
+                 $('#tabla').html(data);
+        },
+        contentType: false,
+        processData: false
+    });          
+ };
+ tabla();
          function cerrarSesion(){
             smoke.confirm('Desea Cerrar Sesión',function(e){
                     if (e){

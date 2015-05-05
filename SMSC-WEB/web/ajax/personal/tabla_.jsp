@@ -2,7 +2,7 @@
 <%@page import="entidades.clsPersonal"%>
 <%@page import="java.util.List"%>
 <%
-List<clsPersonal> list=clsGestor.listarPersonal(true);
+List<clsPersonal> list=clsGestor.listarxAsignar();
 if(list!=null)
 {    
 %>
@@ -28,13 +28,7 @@ if(list!=null)
             <td><%=entidad.getStr_dni()%></td>
 
             <td>
-                <center> <a href="javascript:void(0)" onclick="edit_form(<%=entidad.getInt_id_personal()%>,
-                            '<%=entidad.getStr_nombre()%>','<%=entidad.getStr_apellido_materno()%>','<%=entidad.getStr_apellido_paterno()%>',
-                            '<%=entidad.getStr_dni()%>',<%=entidad.getObjTipoPersonal().getInt_id_tipo_personal()%>,
-                            <%=entidad.getObjDistrito().getObjProvincia().getObjDepartamento().getInt_id_departamento()%>,
-                            <%=entidad.getObjDistrito().getObjProvincia().getInt_id_provincia()%>,<%=entidad.getObjDistrito().getInt_id_distrito()%>,
-                            '<%=entidad.getStr_telefono()%>','<%=entidad.getStr_celular()%>','<%=entidad.getStr_email()%>','<%=entidad.getStr_direccion()%>',
-                            <%=entidad.getInt_estado()%>)" class="comp_edit btn btn-primary btn-mini">Seleccionar</a></center> 
+                <center> <a  data-dismiss="modal" href="javascript:void(0)" onclick="add_personal(<%=entidad.getInt_id_personal()%>)" class="comp_edit btn btn-primary btn-mini">Seleccionar</a></center> 
             </td>
         </tr>
 

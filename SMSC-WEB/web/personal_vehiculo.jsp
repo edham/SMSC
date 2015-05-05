@@ -156,65 +156,8 @@ if(objPersonal!=null)
 				<!-- BEGIN PAGE CONTENT-->
 				 <div id="page" class="dashboard">
                                    <div class="row-fluid">
-                        <div class="span3">
-                            <!-- BEGIN PROGRESS BARS PORTLET-->
-                            <div class="widget">
-                                <div class="widget-title">
-                                    <h4><i class="icon-reorder"></i>Agregar Personal</h4>
-                                        <span class="tools">
-                                        <a href="javascript:;" class="icon-chevron-down"></a>
-                                                                                </span>
-                                </div>
-                                <div class="widget-body">
-                               <!-- BEGIN FORM-->
-                                   <form id="form"  class="form-horizontal" action="">
-
-                                      <div class="control-group ">
-                                        
-                                        <div class="input-prepend">
-                                            <input id="txtMarca" name="txtMarca" type="text" placeholder="Marca" required/>
-                                        </div>
-                                        
-                                        
-                                        <div class="input-prepend">
-                                            <input id="txtModelo" name="txtModelo" type="text" placeholder="Modelo" required/>
-                                        </div>
-                                        
-                                       <div class="input-prepend">
-                                            <input id="txtNPlaca" name="txtNPlaca" type="text" placeholder="N° placa" required/>
-                                        </div>
-                                      
-                                        
-                                       
-                                        <div class="input-prepend">
-                                            <input id="txtNumero" name="txtNumero" type="text" placeholder="Numero de Vehiculo" required/>
-                                        </div>
-                                         
-                                       
-                                       <div class="input-prepend">
-                                            <label class="radio inline">
-                                                 <input type="radio" value="1"  id="rbEstado" name="rbEstado" />
-                                                    Activo
-                                            </label>
-                                            <label class="radio inline">
-                                                    <input type="radio" value="0" id="rbEstado" name="rbEstado" />
-                                                    Inactivo
-                                            </label> 
-                                        </div>  
-                                      </div>
-                                       <br>
-                                     <input type="hidden" id="Id"  name="Id" value="" />
-                                      <button type="submit" class="btn btn-success">Aceptar</button>
-                                      <button type="button" onclick="limpiar()" class="btn">Cancelar</button>
-
-                                    </form>
-                        <!-- END FORM-->
-
-                                </div>
-                            </div>
-                            <!-- END PROGRESS BARS PORTLET-->
-                        </div>
-                        <div class="span9">
+                       
+                        <div class="span12">
                             <!-- BEGIN ALERTS PORTLET-->
                             <div class="widget">
                                 <div class="widget-title">
@@ -225,6 +168,37 @@ if(objPersonal!=null)
                                 </div>
                                 <div class="widget-body">
                                     <div id="tabla"></div>
+                                    			
+                                        <div id="ModalVehiculo" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                       						
+                                                        <i class="icon-credit-card icon-7x"></i> 
+                                                                <h4 id="myModalLabel" class="semi-bold">Lista de Vehiculos</h4>
+                                                         
+                                                </div>
+                                                        <div class="modal-body">
+                                                        <div id='tablaVehiculo'></div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                        <button class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</button>
+                                                </div>
+                                        </div>
+                                        <div id="ModalPersonal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                       						
+                                                        <i class="icon-credit-card icon-7x"></i> 
+                                                                <h4 id="myModalLabel" class="semi-bold">Lista de Personal</h4>
+                                                         
+                                                </div>
+                                                        <div class="modal-body">
+                                                        <div id='tablaPersonal'></div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                        <button class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</button>
+                                                </div>
+                                        </div>
                                 </div>
                             </div>
                             <!-- END ALERTS PORTLET-->
@@ -275,12 +249,30 @@ if(objPersonal!=null)
    <script type="text/javascript" src="assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script> 
         <script src="assets/moment_js/moment.min.js"></script>
 	<script>
+            
+ var idPersonalVehiculo;
+ function tablaVehiculo()
+{
+     $('#tablaVehiculo').html('<center id="tablaVehiculo"><h4><img src="img/ajax-loader.gif" alt="" /> Espere un Momento ...</h4></center>');
+   
+     $.ajax({
+        url: 'ajax/vehiculo/tabla_.jsp',
+        type: 'POST',
+        success: function (data) {     
+                 $('#tablaVehiculo').html(data);
+        },
+        contentType: false,
+        processData: false
+    });          
+ };
+ 
+ 
 function tabla()
 {
      $('#tabla').html('<center id="tabla"><h4><img src="img/ajax-loader.gif" alt="" /> Espere un Momento ...</h4></center>');
    
      $.ajax({
-        url: 'ajax/vehiculo/tabla.jsp',
+        url: 'ajax/personal_vehiculo/tabla.jsp',
         type: 'POST',
         success: function (data) {     
                  $('#tabla').html(data);
@@ -289,107 +281,101 @@ function tabla()
         processData: false
     });          
  };
-function comboTipoPersonal()
+ function tablaPersonal(id)
 {
+    idPersonalVehiculo=id;
+     $('#tablaPersonal').html('<center id="tablaPersonal"><h4><img src="img/ajax-loader.gif" alt="" /> Espere un Momento ...</h4></center>');
+   
      $.ajax({
-        url: 'ajax/tipo_personal/combo.jsp',
+        url: 'ajax/personal/tabla_.jsp',
         type: 'POST',
         success: function (data) {     
-                 $('#cbTipoPersonal').html(data);
+                 $('#tablaPersonal').html(data);
         },
         contentType: false,
         processData: false
     });          
  };
- function comboDepartamento()
+ 
+ function add_vehiculo(id)
 {
-     $.ajax({
-        url: 'ajax/ubigeo/combo_departamento.jsp',
-        type: 'POST',
-        success: function (data) {     
-                 $('#cbDepartamento').html(data);
-        },
-        contentType: false,
-        processData: false
-    });          
- };
- function getUbigeo(departamento,provincia,distrito){
-                $("select#cbDepartamento").val(departamento);
-                 
-                $('#cbProvincia option[value=]').text('espere un momento...');               
-                var url = "ajax/ubigeo/combo_provincia.jsp?id="+departamento; 
+    smoke.confirm('Desea Agregar Vehiculo',function(e){
+        if (e){
+            var url = "ajax/personal_vehiculo/operacion.jsp?id="+id; 
+            $.ajax({
+               type: "POST",
+               url: url,
+               success: function(data)
+               {
 
-                                    $.ajax({
-                                           type: "POST",
-                                           url: url,
-                                           success: function(data)
-                                           {
-                                               $("#cbProvincia").html(data);
-                                               $("select#cbProvincia").val(provincia);
-                                               url = "ajax/ubigeo/combo_distrito.jsp?id="+provincia; 
+                   if(data>0)
+                   {
+                        $.gritter.add({text: 'Se grabo Correctamente.'});
+                        tabla();    
+                   }else if(data==0)
+                   {
+                       $.gritter.add({text: 'Problemas con el Sevidor intentelo mas tarde.'});
+                   }
 
-                                                $.ajax({
-                                                       type: "POST",
-                                                       url: url,
-                                                       success: function(data)
-                                                       {
-                                                            $("#cbDistrito").html(data);
-                                                            $("select#cbDistrito").val(distrito);
+               }
+             });   
+        }
+    }, {cancel:"No",ok:"Si"});  
 
-                                                       }
-                                                     });    
-                                           }
-                                         });    
-                  
-  }
-  function getProvincia(id){
-     
-                if(id!="")
-                {
-                 $('#cbProvincia option[value=]').text('espere un momento...');
-                 $("#cbDistrito").val(0);
-                var url = "ajax/ubigeo/combo_provincia.jsp?id="+id; 
+    
+};
+function add_personal(id)
+{
+   smoke.confirm('Desea Agregar Personal',function(e){
+        if (e){
+            var url = "ajax/personal_vehiculo/operacion.jsp?id="+idPersonalVehiculo+"&idPersona="+id; 
+            $.ajax({
+               type: "POST",
+               url: url,
+               success: function(data)
+               {
 
-                                    $.ajax({
-                                           type: "POST",
-                                           url: url,
-                                           success: function(data)
-                                           {
-                                                $("#cbProvincia").html(data);
-                                                $("#cbProvincia").change();
-                                           }
-                                         });    
-                  }
-                   else
-                  {
-                      $("#cbProvincia").val(0);
-                  }
-            }
-  function getDistrito(id){
-                
-                if(id!="")
-                {
-                $('#cbDistrito option[value=]').text('espere un momento...');
-                var url = "ajax/ubigeo/combo_distrito.jsp?id="+id; 
+                   if(data>0)
+                   {
+                        $.gritter.add({text: 'Se grabo Correctamente.'});
+                        tabla();    
+                   }else if(data==0)
+                   {
+                       $.gritter.add({text: 'Problemas con el Sevidor intentelo mas tarde.'});
+                   }
 
-                                    $.ajax({
-                                           type: "POST",
-                                           url: url,
-                                           success: function(data)
-                                           {
-                                                $("#cbDistrito").html(data);
-                                                
-                                           }
-                                         });    
-                  }
-                  else
-                  {
-                      $("#cbDistrito").val(0);
-                  }
-            }
+               }
+             });   
+        }
+    }, {cancel:"No",ok:"Si"});  
+};
+function quitar_personal(id)
+{
+    alert(id);
+     smoke.confirm('Desea Agregar Vehiculo',function(e){
+        if (e){
+            var url = "ajax/personal_vehiculo/quitar.jsp?id="+id; 
+            $.ajax({
+               type: "POST",
+               url: url,
+               success: function(data)
+               {
+
+                   if(data==1)
+                   {
+                        $.gritter.add({text: 'Se Quito Correctamente.'});
+                        tabla();    
+                   }else 
+                   {
+                       $.gritter.add({text: 'Problemas con el Sevidor intentelo mas tarde.'});
+                   }
+
+               }
+             });   
+        }
+    }, {cancel:"No",ok:"Si"});  
+};
   tabla();
-  comboTipoPersonal();
-  comboDepartamento();
           function limpiar(){
                 smoke.confirm('Desea Lipiar Formulario',function(e){
                     if (e){
@@ -412,60 +398,7 @@ function comboTipoPersonal()
 			// initiate layout and plugins
                      
 			App.init();
-                        
-            $('#form').validate({
-            onkeyup: false,
-            errorClass: 'error',
-            validClass: 'valid',
-            rules: {
-                    txtMarca: { required: true},
-                    txtModelo: { required: true},
-                    txtNPlaca: { required: true},
-                    txtNumero: { required: true,  number: true},
-                    rbEstado: { required: true}
-                            
-            },
-            submitHandler: function() {   
-                
-                 var url = "ajax/vehiculo/operacion.jsp"; 
-                $.ajax({
-                       type: "POST",
-                       url: url,
-                       data: $("#form").serialize(), 
-                       success: function(data)
-                       {
-                           
-                           if(data>0)
-                           {
-                                $.gritter.add({text: 'Se grabo Correctamente.'});
-                                tabla();    
-                                 $('#form')[0].reset();
-                           }else if(data==0)
-                           {
-                                 $.gritter.add({text: 'Se actualizo Correctamente.'});
-                                 tabla();
-                                  $('#form')[0].reset();
-                           }else if(data==-1)
-                           {
-                               $.gritter.add({text: 'Problemas con el Sevidor intentelo mas tarde.'});
-                           }
-                           $('#Id').val("");
-                           
-                       }
-                     });    
-            },
-            highlight: function(element) {
-                    $(element).closest('div').addClass("f_error");
-            },
-            unhighlight: function(element) {
-                    $(element).closest('div').removeClass("f_error");
-            },
-            errorPlacement: function(error, element) {
-                    $(element).closest('div').append(error);
-            }
-        }); 
-        
-        $('#txtFNacimiento').datepicker();
+           
     });
                 
             function edit_form(id,marca,modelo,placa,numero,estado) {

@@ -220,4 +220,70 @@ public class clsIncidenteDAO {
         }
         return rpta;
     }
+    
+     public static List<clsIncidente> listar() throws Exception 
+    {
+        List<clsIncidente> lista = null;
+        
+        Connection conn =null;
+        CallableStatement stmt = null;
+        ResultSet dr = null;
+        try {
+            String sql="SELECT i.id_incidente,i.latitud,i.longuitud,i.detalle,i.fecha_registro,i.estado,\n" +
+                        "i.foto,ti.id_tipo_incidente,ti.nombre,u.id_usuario,u.apellido,u.nombre,u.celular,\n" +
+                        "u.dni,u.email,u.fecha_nacimiento,u.sexo FROM incidente i inner join tipo_incidente \n" +
+                        "ti on i.id_tipo_incidente=ti.id_tipo_incidente inner join usuario u on\n" +
+                        "u.id_usuario=i.id_usuario";
+
+            conn = clsConexion.getConnection();
+            stmt = conn.prepareCall(sql);
+            dr = stmt.executeQuery();
+
+            while(dr.next())
+            {   
+                if(lista==null)
+                    lista = new ArrayList<clsIncidente>();
+                
+                clsUsuario objUsuario = new clsUsuario();
+                objUsuario.setInt_id_usuario(dr.getInt(10));
+                objUsuario.setStr_apellido(dr.getString(11));
+                objUsuario.setStr_nombre(dr.getString(12));
+                objUsuario.setStr_celular(dr.getString(13));
+                objUsuario.setStr_dni(dr.getString(14));
+                objUsuario.setStr_email(dr.getString(15));
+                objUsuario.setDat_fecha_nacimiento(dr.getTimestamp(16));      
+                objUsuario.setBool_sexo(dr.getBoolean(17));
+                
+                clsTipoIncidente objTipoIncidente = new clsTipoIncidente();
+                objTipoIncidente.setInt_id_tipo_incidente(dr.getInt(8));
+                objTipoIncidente.setStr_nombre(dr.getString(9));
+                
+                clsIncidente objclsIncidente = new clsIncidente();
+                objclsIncidente.setInt_id_incidente(dr.getInt(1));
+                objclsIncidente.setDou_latitud(dr.getDouble(2));
+                objclsIncidente.setDou_longitud(dr.getDouble(3));
+                objclsIncidente.setStr_detalle(dr.getString(4));
+                objclsIncidente.setDat_fecha_registro(dr.getTimestamp(5));      
+                objclsIncidente.setInt_estado(dr.getInt(6)); 
+                objclsIncidente.setByte_foto(dr.getBytes(7));
+                objclsIncidente.setObjTipoIncidente(objTipoIncidente);
+                objclsIncidente.setObjUsuario(objUsuario);
+                lista.add(objclsIncidente);                
+            }
+
+       } catch (Exception e) {
+    
+                throw new Exception("Listar Cargos "+e.getMessage(), e);
+        
+        }
+        finally{
+            try {
+                dr.close();
+                stmt.close();
+                conn.close();
+            } catch (Exception e) {
+            }
+        }
+        return lista;
+    }
 }

@@ -187,6 +187,96 @@ public class clsPersonalDAO {
         return listar;
     }
      
+      public static List<clsPersonal> listarxAsignar() throws Exception 
+    {
+        List<clsPersonal> listar = null;
+        
+        Connection conn =null;
+        CallableStatement stmt = null;        
+        ResultSet dr = null;
+        try {
+               String sql="select p.id_personal,p.nombre,p.apellido_paterno,p.apellido_materno,"
+                       + "p.telefono,p.celular,p.email,p.direccion,p.dni,p.clave,p.puntos,p.foto,"
+                       + "p.fecha_nacimiento,p.fecha_registro,p.fecha_actualizacion,p.estado,"
+                       + "p.id_tipo_personal,tp.nombre,p.id_distrito,d.nombre,pro.id_provincia,"
+                       + "pro.nombre,de.id_departamento,de.nombre from personal p inner join "
+                       + "tipo_personal tp on p.id_tipo_personal=tp.id_tipo_personal inner join "
+                       + "distrito d on p.id_distrito=d.id_distrito inner join provincia pro on "
+                       + "pro.id_provincia=d.id_provincia inner join departamento de on "
+                       + "de.id_departamento=pro.id_departamento left join detalle_personal_vehiculo "
+                       + "dpv on p.id_personal=dpv.id_personal where dpv.id_detalle_personal_vehiculo "
+                       + "is null and p.id_tipo_personal=2";
+
+       
+            conn = clsConexion.getConnection();
+            conn.setAutoCommit(false);
+            stmt = conn.prepareCall(sql);
+            dr = stmt.executeQuery();
+
+            while(dr.next())
+            {   
+                if(listar==null)
+                    listar = new ArrayList<clsPersonal>();
+                
+                clsDepartamento objclsDepartamento = new clsDepartamento();
+                objclsDepartamento.setInt_id_departamento(dr.getInt(23));
+                objclsDepartamento.setStr_nombre(dr.getString(24));
+                
+                clsProvincia objProvincia = new clsProvincia();
+                objProvincia.setInt_id_provincia(dr.getInt(21));
+                objProvincia.setStr_nombre(dr.getString(22));
+                objProvincia.setObjDepartamento(objclsDepartamento);
+                
+                
+                clsDistrito objDistrito = new clsDistrito();
+                objDistrito.setInt_id_distrito(dr.getInt(19));
+                objDistrito.setStr_nombre(dr.getString(20));
+                objDistrito.setObjProvincia(objProvincia);
+                
+                clsTipoPersonal objTipoPersonal = new clsTipoPersonal();
+                objTipoPersonal.setInt_id_tipo_personal(dr.getInt(17));
+                objTipoPersonal.setStr_nombre(dr.getString(18));
+
+                clsPersonal objPersonal = new clsPersonal();
+                objPersonal.setInt_id_personal(dr.getInt(1));
+                objPersonal.setStr_nombre(dr.getString(2));
+                objPersonal.setStr_apellido_paterno(dr.getString(3));
+                objPersonal.setStr_apellido_materno(dr.getString(4));
+                objPersonal.setStr_telefono(dr.getString(5));
+                objPersonal.setStr_celular(dr.getString(6));
+                objPersonal.setStr_email(dr.getString(7));
+                objPersonal.setStr_direccion(dr.getString(8));
+                objPersonal.setStr_dni(dr.getString(9));
+                objPersonal.setStr_clave(dr.getString(10));
+                objPersonal.setInt_puntos(dr.getInt(11));
+                Blob image = dr.getBlob(12);
+                objPersonal.setByte_foto(image.getBytes(1,(int)image.length())); 
+                objPersonal.setDat_fecha_nacimiento(dr.getTimestamp(13)); 
+                objPersonal.setDat_fecha_registro(dr.getTimestamp(14)); 
+                objPersonal.setDat_fecha_actualizacion(dr.getTimestamp(15)); 
+                objPersonal.setInt_estado(dr.getInt(16));
+                objPersonal.setObjTipoPersonal(objTipoPersonal);
+                objPersonal.setObjDistrito(objDistrito);
+                    listar.add(objPersonal);
+            }
+
+          conn.commit();
+        } catch (Exception e) {
+             if (conn != null) {
+                    conn.rollback();
+                }
+            throw new Exception("Insertar"+e.getMessage(), e);
+        }
+        finally{
+            try {
+                stmt.close();
+                conn.close();
+            } catch (SQLException e) {
+            }
+        }
+        return listar;
+    }
+     
       public  static int insertar(clsPersonal entidad) throws Exception
     {
         int rpta = 0;

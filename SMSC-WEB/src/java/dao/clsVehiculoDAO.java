@@ -74,6 +74,60 @@ public class clsVehiculoDAO {
         }
         return listar;
     }
+    
+    public static List<clsVehiculo> listarxXAsignar() throws Exception 
+    {
+        List<clsVehiculo> listar = null;
+        
+        Connection conn =null;
+        CallableStatement stmt = null;        
+        ResultSet dr = null;
+        try {
+               String sql="select v.id_vehiculo,v.marca,v.modelo,v.placa,v.numero,"
+                       + "v.fecha_registro,v.fecha_actualizacion,v.estado from vehiculo v  "
+                       + "left join personal_vehiculo pv on v.id_vehiculo=pv.id_vehiculo "
+                       + "where pv.id_vehiculo is null";
+          
+
+            conn = clsConexion.getConnection();
+            conn.setAutoCommit(false);
+            stmt = conn.prepareCall(sql);
+            dr = stmt.executeQuery();
+
+            while(dr.next())
+            {   
+                if(listar==null)
+                    listar = new ArrayList<clsVehiculo>();
+                
+                clsVehiculo objPersonal = new clsVehiculo();
+                objPersonal.setInt_id_vehiculo(dr.getInt(1));
+                objPersonal.setStr_marca(dr.getString(2));
+                objPersonal.setStr_modelo(dr.getString(3));
+                objPersonal.setStr_placa(dr.getString(4));
+                objPersonal.setStr_numero(dr.getString(5));               
+                objPersonal.setDat_fecha_registro(dr.getTimestamp(6)); 
+                objPersonal.setDat_fecha_actualizacion(dr.getTimestamp(7)); 
+                objPersonal.setInt_estado(dr.getInt(8));
+                
+                listar.add(objPersonal);
+            }
+
+          conn.commit();
+        } catch (Exception e) {
+             if (conn != null) {
+                    conn.rollback();
+                }
+            throw new Exception("Insertar"+e.getMessage(), e);
+        }
+        finally{
+            try {
+                stmt.close();
+                conn.close();
+            } catch (SQLException e) {
+            }
+        }
+        return listar;
+    }
      
     public  static int insertar(clsVehiculo entidad) throws Exception
     {

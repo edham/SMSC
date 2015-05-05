@@ -46,6 +46,10 @@ public class clsGestor {
     {
         return clsIncidenteDAO.listarXEstado(estado, IdUsuario);
     }
+      public static List<clsIncidente> listarIncidente() throws Exception 
+    {
+        return clsIncidenteDAO.listar();
+    }
      public static clsSesionPersonalVehiculo loginSesionPersonalVehiculo(String dni,String clave) throws Exception 
      {
          return clsSesionPersonalVehiculoDAO.login(dni, clave);
@@ -92,6 +96,10 @@ public class clsGestor {
     {
       return clsPersonalDAO.listar(estado);
     }
+    public static List<clsPersonal> listarxAsignar() throws Exception
+    {
+      return clsPersonalDAO.listarxAsignar();
+    }
     
     public  static int insertarPersonal(clsPersonal entidad) throws Exception
     {
@@ -126,9 +134,20 @@ public class clsGestor {
          return clsDistritoDAO.buscarId(idDistrito);
      }
      
-     
+      public  static int insertarPersonalVehiculo(int IdVehiculo) throws Exception
+    {
+      return clsPersonalVehiculoDAO.insertar(IdVehiculo);
+    }
     
+       public  static int insertarDetallePersonalVehiculo(int idVehiculoVehiculo,int idPersonal) throws Exception
+    {
+      return clsPersonalVehiculoDAO.insertarDetalle(idVehiculoVehiculo, idPersonal);
+    }
     
+      public  static boolean quitarDetallePersonalVehiculo(int idDetalle) throws Exception
+    {
+      return clsPersonalVehiculoDAO.quitar(idDetalle);
+    }
     public  static int insertarVehiculo(clsVehiculo entidad) throws Exception
     {
       return clsVehiculoDAO.insertar(entidad);
@@ -143,6 +162,14 @@ public class clsGestor {
     {
       return clsVehiculoDAO.listar(estado);
     }
+    
+     public static List<clsVehiculo> listarxXAsignarVehiculo() throws Exception
+    {
+      return clsVehiculoDAO.listarxXAsignar();
+    }
      
-     
+    public static List<clsPersonalVehiculo> listarPersonalVehiculo(boolean estado) throws Exception
+    {
+      return clsPersonalVehiculoDAO.listar(estado);
+    } 
 }

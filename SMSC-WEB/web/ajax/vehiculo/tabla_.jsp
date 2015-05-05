@@ -2,13 +2,13 @@
 <%@page import="entidades.clsVehiculo"%>
 <%@page import="java.util.List"%>
 <%
-List<clsVehiculo> list=clsGestor.listarVehiculo(true);
+List<clsVehiculo> list=clsGestor.listarxXAsignarVehiculo();
 if(list!=null)
 {
     
 %>
 <div id="tablaVehiculo">
-<table id="lista" class="table table-striped table-bordered">
+<table id="listaVehiculo" class="table table-striped table-bordered">
     <thead>
             <tr>
                     <th>Placa</th>
@@ -27,10 +27,8 @@ if(list!=null)
             <td> <center><%=entidad.getStr_numero()%> </center></td>
             
             <td>
-                <center> <a href="javascript:void(0)" onclick="edit_form(<%=entidad.getInt_id_vehiculo()%>,
-                            '<%=entidad.getStr_marca()%>','<%=entidad.getStr_modelo()%>','<%=entidad.getStr_placa()%>',
-                            '<%=entidad.getStr_numero()%>',<%=entidad.getInt_estado()%>)" 
-                            class="comp_edit btn btn-primary btn-mini">Seleccionar</a></center> 
+                <center> <a data-dismiss="modal" href="javascript:void(0)" onclick="add_vehiculo(<%=entidad.getInt_id_vehiculo()%>)" 
+                            class="comp_edit btn btn-primary btn-mini">Agregar</a></center> 
             </td>
         </tr>
 
@@ -44,7 +42,7 @@ if(list!=null)
 <script type="text/javascript">
 $(function () { 
 
-   $('#lista').dataTable({
+   $('listaVehiculo').dataTable({
         "sPaginationType": "bootstrap",
         "sScrollY": "90px",
         "bDestroy": true,

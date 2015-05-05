@@ -142,4 +142,96 @@ public class clsPersonalVehiculoDAO {
         }
         return listar;
     }
+   
+    public  static int insertar(int idVehiculo) throws Exception
+    {
+        int rpta = 0;
+        Connection conn =null;
+        PreparedStatement stmt = null;
+        try {
+            
+           String sql="INSERT INTO personal_vehiculo(id_vehiculo,fecha_registro,estado)"
+                   + "VALUES(?,now(),0);";
+           
+            conn = clsConexion.getConnection();
+            stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stmt.setInt(1,idVehiculo);
+           
+            stmt.executeUpdate();
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()){
+                rpta=rs.getInt(1);
+            }
+            rs.close();
+        } catch (Exception e) {
+            throw new Exception("Insertar"+e.getMessage(), e);
+        }
+        finally{
+            try {
+                stmt.close();
+                conn.close();
+            } catch (SQLException e) {
+            }
+        }
+        return rpta;
+    } 
+    
+     public  static int insertarDetalle(int idVehiculoVehiculo,int idPersonal) throws Exception
+    {
+        int rpta = 0;
+        Connection conn =null;
+        PreparedStatement stmt = null;
+        try {
+            
+           String sql="INSERT INTO detalle_personal_vehiculo(id_personal_vehiculo,id_personal)"
+                   + "VALUES(?,?);";
+           
+            conn = clsConexion.getConnection();
+            stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stmt.setInt(1,idVehiculoVehiculo);
+            stmt.setInt(2,idPersonal);
+            stmt.executeUpdate();
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()){
+                rpta=rs.getInt(1);
+            }
+            rs.close();
+        } catch (Exception e) {
+            throw new Exception("Insertar"+e.getMessage(), e);
+        }
+        finally{
+            try {
+                stmt.close();
+                conn.close();
+            } catch (SQLException e) {
+            }
+        }
+        return rpta;
+    } 
+      public static boolean quitar(int IdDetalle) throws Exception
+    {
+        boolean rpta = false;
+        Connection conn =null;
+        CallableStatement stmt = null;
+        try {
+             String sql="delete from detalle_personal_vehiculo where id_detalle_personal_vehiculo= ?";
+             
+            conn = clsConexion.getConnection();
+            stmt = conn.prepareCall(sql);             
+             stmt.setInt(1,IdDetalle);
+           rpta = stmt.executeUpdate() == 1;
+        } catch (Exception e) {
+            throw new Exception("Error Actualizar "+e.getMessage(), e);
+        }
+        finally{
+            try {
+                stmt.close();
+                conn.close();
+            } catch (SQLException e) {
+            }
+        }
+        return rpta;
+    }  
 }
